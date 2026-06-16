@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Poonch Tourism</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #1c1c1f;
+      background: #f7f7f7;
+      --surface: #ffffff;
+      --surface-muted: #f4f5f7;
+      --border: rgba(60, 60, 67, 0.16);
+      --text-muted: #6d6d72;
+      --accent: #0067ff;
+      --radius: 28px;
+      --shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.08);
+      --max-width: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body { margin: 0; background: linear-gradient(180deg, #f7f7f7 0%, #f4f5f7 100%); color: #1c1c1f; }
+    body, button, input, textarea { font: 16px/1.7 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .page { width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 28px 20px 60px; }
+    .about-hero { padding: 48px 0 22px; }
+    .hero-inner { display: grid; gap: 28px; }
+    .about-back-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 10px 18px; border-radius: 999px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.85);
+      color: #1c1c1f; width: fit-content;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .about-back-btn:hover { transform: translateX(-2px); border-color: rgba(0,103,255,0.22); }
+    .about-app-id { display: flex; align-items: center; gap: 16px; }
+    .about-app-icon {
+      width: 58px; height: 58px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      background: #e4e8f0; border: 1px solid rgba(60,60,67,0.12);
+    }
+    .about-app-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+    .about-app-version { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .section-eyebrow { text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; color: var(--text-muted); }
+    .section-title { margin: 0; font-size: clamp(42px, 6vw, 64px); line-height: 1.02; letter-spacing: -0.03em; }
+    .section-title em { font-style: normal; font-weight: 600; color: #111214; }
+    .section-desc { max-width: 680px; font-size: 17px; color: #4b4b52; margin: 0; }
+    .about-content { display: grid; grid-template-columns: 1.7fr .9fr; gap: 48px; margin-top: 42px; }
+    .about-main { display: flex; flex-direction: column; gap: 32px; }
+    .about-main p { margin: 0; color: #3f3f46; font-size: 16px; line-height: 1.9; }
+    .about-block-title { font-size: 14px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-muted); margin-bottom: 16px; }
+    .section-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+      box-shadow: var(--shadow-soft);
+    }
+    .about-dev-block { display: flex; gap: 18px; align-items: flex-start; }
+    .about-dev-block-icon {
+      width: 54px; min-width: 54px; height: 54px;
+      border-radius: 16px; display: flex; align-items: center; justify-content: center;
+      background: #f0f4ff; border: 1px solid rgba(0,103,255,0.12);
+    }
+    .about-dev-block-name { margin: 0; font-size: 20px; font-weight: 700; color: #111214; }
+    .about-dev-block-role { margin: 8px 0 0; color: var(--text-muted); font-size: 14px; }
+    .about-divider { height: 1px; background: var(--border); margin: 24px 0; border: none; }
+    .about-button-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 12px 18px; border-radius: 999px; border: 1px solid transparent;
+      background: #111214; color: #fff; font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 18px 35px rgba(17,18,20,0.12); }
+    .btn-outline { border-color: var(--border); color: #111214; background: rgba(255,255,255,0.95); }
+    .btn-insta { color: #111214; border: 1px solid var(--border); padding: 11px 16px; border-radius: 999px; background: #ffffff; }
+    .about-disclaimer { display: flex; gap: 16px; align-items: flex-start; padding: 22px; border-radius: var(--radius); background: #fff; border: 1px solid rgba(60,60,67,0.08); }
+    .about-disclaimer-icon { min-width: 18px; color: #8f95a3; margin-top: 3px; }
+    .about-disclaimer p { margin: 0; color: #5a5a66; font-size: 14px; line-height: 1.8; }
+    .about-sidebar-card { position: sticky; top: 26px; background: var(--surface); border: 1px solid var(--border); border-radius: 32px; padding: 32px; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; gap: 22px; }
+    .about-avatar { width: 88px; height: 88px; border-radius: 24px; background: #111214; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; font-weight: 700; }
+    .about-dev-name { margin: 0; font-size: 22px; font-weight: 700; color: #111214; }
+    .about-dev-role { margin: 0; color: var(--text-muted); font-size: 14px; }
+    .about-social { display: flex; gap: 12px; }
+    .social-btn { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 16px; border: 1px solid var(--border); background: #fff; color: #111214; transition: transform 0.2s ease; }
+    .social-btn:hover { transform: translateY(-1px); border-color: rgba(0,103,255,0.18); }
+    .programiner-logo-card { display: flex; gap: 14px; align-items: center; padding: 16px 18px; border-radius: 22px; background: #f4f6fb; border: 1px solid rgba(0,103,255,0.12); }
+    .logo-mark { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #fff; border: 1px solid rgba(60,60,67,0.11); overflow: hidden; }
+    .programiner-logo-img { width: 40px; height: 40px; object-fit: cover; border-radius: 50%; }
+    .logo-wordmark { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+    .credit-note { font-size: 14px; color: #6b7280; line-height: 1.8; margin: 10px 0 0; padding-top: 10px; border-top: 1px solid rgba(60,60,67,0.12); }
+    .logo-wordmark-accent { color: #0067ff; }
+    .logo-tagline { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .about-info-row { display: flex; justify-content: space-between; gap: 16px; padding-top: 12px; font-size: 14px; color: #3f3f46; }
+    .about-info-key { color: var(--text-muted); }
+    .about-info-val { font-weight: 600; }
+
+    @media (max-width: 900px) {
+      .about-content { grid-template-columns: 1fr; gap: 32px; }
+      .about-sidebar-card { position: static; top: auto; }
+    }
+    @media (max-width: 900px) {
+      .about-content { grid-template-columns: 1fr; gap: 32px; }
+      .about-sidebar-card { position: static; top: auto; }
+    }
+    @media (max-width: 640px) {
+      .page { padding: 22px 16px 40px; }
+      .about-back-btn { width: 100%; justify-content: center; }
+      .about-app-id { flex-wrap: wrap; align-items: flex-start; }
+      .about-sidebar-card { padding: 24px; }
+      .social-btn { width: 48px; height: 48px; }
+      .about-social { flex-wrap: wrap; gap: 10px; }
+      .section-card { padding: 24px; }
+      .programiner-logo-card { padding: 14px 16px; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="page-about" class="page">
+    <div class="about-hero">
+      <div class="hero-inner">
+        <a href="home.html" class="about-back-btn" data-anim="fade-up">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          About App
+        </a>
+
+        <div class="about-app-id" data-anim="fade-up" style="--d:.06s">
+          <div class="about-app-icon">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+              <polygon points="2,26 9,12 14,19 19,9 26,22 32,26" fill="none" stroke="#0F172A" stroke-width="1.5" stroke-linejoin="round"/>
+              <circle cx="24" cy="8" r="1.3" fill="#0067ff"/>
+            </svg>
+          </div>
+          <div>
+            <div class="about-app-name">Poonch Tourism</div>
+            <div class="about-app-version">Version 10.0</div>
+          </div>
+        </div>
+
+        <div class="section-eyebrow" data-anim="fade-up" style="--d:.1s">About</div>
+        <h1 class="section-title" data-anim="fade-up" style="--d:.16s">About<br><em>Poonch Tourism</em></h1>
+        <p class="section-desc" data-anim="fade-up" style="--d:.22s">A dedicated digital platform designed to showcase the natural beauty, cultural richness, and historical significance of Poonch district.</p>
+      </div>
+    </div>
+
+    <div class="about-content">
+      <div class="about-main">
+        <section class="section-card">
+          <div class="about-block-title">Our Mission</div>
+          <p data-anim="fade-up" style="--d:.05s">The Poonch Tourism App is a dedicated digital platform designed to showcase the natural beauty, cultural richness, and historical significance of Poonch district. It provides users with a seamless and informative experience by presenting well-organized details about various tourist destinations.</p>
+          <p data-anim="fade-up" style="--d:.1s">The application features a calm, intuitive interface that helps users explore attractions, historic sites, scenic landscapes, and local culture with clarity and ease.</p>
+          <p data-anim="fade-up" style="--d:.15s">Built with a focus on performance, simplicity, and smooth navigation, the app reflects a modern approach to digital tourism and makes Poonch's hidden beauty easier to discover.</p>
+        </section>
+
+        <section class="section-card">
+          <div class="about-dev-block">
+            <div class="about-dev-block-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0067ff" stroke-width="1.7" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <div class="about-dev-block-name">Ajaz Ahmed</div>
+              <div class="about-dev-block-role">Founder of Programiner</div>
+            </div>
+          </div>
+          <div class="about-divider"></div>
+          <div class="about-block-title">Get the App</div>
+          <p data-anim="fade-up">The Poonch Tourism mobile app is available on Google Play Store. It brings the complete experience to your phone — with high-quality photography and concise destination guides.</p>
+          <div class="about-button-row">
+            <a href="https://play.google.com/store/apps/details?id=com.programiner.poonchtourism" target="_blank" rel="noopener" class="btn">Download on Google Play</a>
+          </div>
+        </section>
+      </div>
+
+      <aside class="about-sidebar-card" data-anim="slide-right">
+        <div class="about-dev-label">Developed By</div>
+        <div class="about-avatar">AA</div>
+        <h2 class="about-dev-name">Ajaz Ahmed</h2>
+        <p class="about-dev-role">Founder of Programiner</p>
+        <div class="about-social">
+          <a href="https://instagram.com/ig.ajaz" target="_blank" rel="noopener" class="social-btn" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg></a>
+          <a href="https://www.linkedin.com/in/ajazahmed01/" target="_blank" rel="noopener" class="social-btn" title="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="https://github.com/programiner" target="_blank" rel="noopener" class="social-btn" title="GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+        </div>
+        <div class="about-divider"></div>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.72; margin: 0;">Developed with care to put Poonch's hidden beauty on the digital map.</p>
+        <p class="credit-note">All images and videos are credited to their respective owners.</p>
+        <div class="programiner-logo-card">
+          <img class="programiner-logo-img" src="https://play-lh.googleusercontent.com/BMyttEQrPkeR9-aADEqgqx8Im6-8cnwMGhFPGYSyDOO_a-aintSxBeUCRcfe-vljkA" alt="Programiner logo" />
+          <div>
+            <div class="logo-wordmark">PRO<span class="logo-wordmark-accent">MINER</span></div>
+            <div class="logo-tagline">Programiner</div>
+          </div>
+        </div>
+        <div class="about-divider"></div>
+        <div style="display: grid; gap: 10px;">
+          <div class="about-info-row"><span class="about-info-key">Version</span><span class="about-info-val">1.1</span></div>
+          <div class="about-info-row"><span class="about-info-key">Platform</span><span class="about-info-val">Android</span></div>
+          <div class="about-info-row"><span class="about-info-key">Category</span><span class="about-info-val">Travel & Tourism</span></div>
+          <div class="about-info-row"><span class="about-info-key">Region</span><span class="about-info-val">Poonch, J&K</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
