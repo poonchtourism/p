@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,6 +138,16 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .nav-cta {
   display: flex; align-items: center; gap: 10px;
 }
+.nav-search-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  background: transparent; border: 1.5px solid var(--ivory-3);
+  border-radius: 50%; cursor: pointer;
+  color: var(--forest);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.nav-search-btn:hover { background: var(--ivory-2); border-color: var(--forest-lt); transform: translateY(-1px); }
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 9px 20px;
@@ -217,7 +228,8 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .hero::before {
   content: '';
   position: absolute; inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231C3829' fill-opacity='0.025'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%231C3829' stroke-width='1'%3E%3Cpath opacity='0.05' d='M-20 380 C 80 340, 160 420, 260 360 S 460 300, 620 350'/%3E%3Cpath opacity='0.06' d='M-20 420 C 90 385, 170 450, 270 400 S 470 345, 620 390'/%3E%3Cpath opacity='0.07' d='M-20 460 C 100 430, 180 480, 280 440 S 480 390, 620 430'/%3E%3Cpath opacity='0.08' d='M-20 500 C 110 475, 190 510, 290 480 S 490 435, 620 470'/%3E%3Cpath opacity='0.05' d='M-20 60 C 80 90, 170 40, 260 80 S 450 110, 620 70'/%3E%3Cpath opacity='0.06' d='M-20 100 C 90 130, 180 85, 270 120 S 460 150, 620 115'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover;
   pointer-events: none;
 }
 /* Decorative mountain silhouette */
@@ -417,10 +429,122 @@ nav.scrolled { box-shadow: var(--shadow-md); }
   max-width: 520px; line-height: 1.7;
 }
 
+/* ── SEARCH BAR ── */
+.search-bar-wrap {
+  position: relative;
+  margin-bottom: 28px;
+  max-width: 480px;
+}
+.search-bar-wrap svg {
+  position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+  color: var(--slate-lt); pointer-events: none;
+}
+.search-input {
+  width: 100%;
+  padding: 13px 44px 13px 46px;
+  border: 1.5px solid var(--ivory-3);
+  border-radius: 50px;
+  background: var(--white);
+  font-family: var(--font-body);
+  font-size: 14.5px; color: var(--slate);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-input::placeholder { color: var(--slate-lt); }
+.search-input:focus {
+  outline: none;
+  border-color: var(--forest-lt);
+  box-shadow: 0 0 0 4px rgba(61,112,87,0.1);
+}
+.search-clear {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--ivory-2); border: none; cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+  color: var(--slate-mid);
+  transition: background 0.2s;
+}
+.search-clear:hover { background: var(--ivory-3); }
+.search-clear.visible { display: flex; }
+
+/* ── FEATURED / TOP RATED STRIP ── */
+.featured-section { background: var(--ivory); }
+.featured-scroll {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 300px);
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-snap-type: x proximity;
+}
+.featured-scroll::-webkit-scrollbar { height: 6px; }
+.featured-scroll::-webkit-scrollbar-thumb { background: var(--ivory-3); border-radius: 10px; }
+.featured-scroll .place-card { scroll-snap-align: start; }
+
+/* ── VIDEO HIGHLIGHTS ── */
+.video-highlights { background: var(--ivory-2); }
+.video-highlight-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--ivory-3);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.video-highlight-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+.video-highlight-label {
+  padding: 14px 18px;
+  font-family: var(--font-display);
+  font-size: 17px; font-weight: 600; color: var(--forest);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.video-highlight-label span.cat {
+  font-family: var(--font-body); font-size: 11px; font-weight: 700;
+  color: var(--gold); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.toolbar-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.sort-group {
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+.sort-label {
+  font-size: 12px; font-weight: 600;
+  color: var(--slate-lt); text-transform: uppercase; letter-spacing: 0.06em;
+  display: flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.sort-label svg { flex-shrink: 0; }
+.sort-pills {
+  display: flex; gap: 6px;
+  background: var(--white);
+  border: 1.5px solid var(--ivory-3);
+  border-radius: 50px;
+  padding: 4px;
+}
+.sort-pill {
+  border: none; background: transparent; cursor: pointer;
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 12.5px; font-weight: 600;
+  color: var(--slate-mid);
+  border-radius: 50px;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.sort-pill:hover { color: var(--forest); }
+.sort-pill.active {
+  background: var(--gold);
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(176,141,87,0.35);
+}
+
 /* ── CATEGORIES ── */
 .cat-strip {
   display: flex; gap: 10px; flex-wrap: wrap;
-  margin-bottom: 40px;
 }
 .cat-pill {
   display: inline-flex; align-items: center; gap: 6px;
@@ -485,6 +609,22 @@ nav.scrolled { box-shadow: var(--shadow-md); }
   display: flex; align-items: center; justify-content: center;
   color: var(--white);
   animation: playPulse 2.4s ease-in-out infinite;
+}
+.place-card-rating {
+  position: absolute; top: 14px; left: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 4px;
+  background: rgba(28,56,41,0.72); backdrop-filter: blur(8px);
+  border-radius: 50px; padding: 5px 10px 5px 8px;
+  font-size: 12px; font-weight: 700; color: var(--white);
+}
+.place-card-rating svg { flex-shrink: 0; }
+.place-card-rank {
+  position: absolute; bottom: 14px; left: 14px; z-index: 2;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--gold); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 .place-card-img-placeholder {
   width:100%; height:220px;
@@ -939,6 +1079,9 @@ footer {
     <li><a href="https://poonch-tourism.web.app/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Add a Place</a></li>
   </ul>
   <div class="nav-cta">
+    <button class="nav-search-btn" onclick="focusSearch()" aria-label="Search places">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    </button>
     <a href="https://play.google.com/store/apps/details?id=com.programiner.poonchtourism" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       Get the App
@@ -950,6 +1093,7 @@ footer {
 </nav>
 
 <div class="mobile-menu" id="mobile-menu">
+  <a href="#" onclick="showPage('home');toggleMobile();focusSearch()">Search Places</a>
   <a href="#" onclick="showPage('home');toggleMobile()">Explore Places</a>
   <a href="about.html">About</a>
   <a href="https://poonch-tourism.web.app/" target="_blank" rel="noopener">Add a Place ↗</a>
@@ -1034,6 +1178,32 @@ footer {
     </div>
   </div>
 
+  <!-- Category Showcase -->
+  <section class="cat-showcase" id="category-showcase">
+    <div class="cat-showcase-inner">
+      <div class="section-eyebrow">Browse by Interest</div>
+      <h2 class="section-title">Explore by <em>Category</em></h2>
+      <p class="section-desc">History, faith, nature or adventure — pick a theme and jump straight to it.</p>
+      <div class="cat-cards-grid" id="cat-cards-grid">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured / Top Rated -->
+  <section class="section featured-section hidden" id="featured-section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Community Favorites</div>
+        <h2 class="section-title">Highly <em>Rated</em> Places</h2>
+        <p class="section-desc">The top-rated destinations in Poonch, ranked by visitor rating.</p>
+      </div>
+      <div class="featured-scroll" id="featured-scroll">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </section>
+
   <!-- Explore Section -->
   <section class="section" id="explore-section">
     <div class="section-inner">
@@ -1049,13 +1219,33 @@ footer {
         </a>
       </div>
 
-      <!-- Category filter -->
-      <div class="cat-strip" id="cat-strip" role="group" aria-label="Filter by category">
-        <button class="cat-pill active" onclick="filterPlaces('all')" data-cat="all">
-          All Places
-          <span class="cat-pill-count" id="count-all">0</span>
-        </button>
-        <!-- Dynamic categories -->
+      <!-- Search -->
+      <div class="search-bar-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" class="search-input" id="search-input" placeholder="Search places by name, category or description…" oninput="handleSearch(this.value)">
+        <button class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="Clear search">✕</button>
+      </div>
+
+      <!-- Toolbar: category filter + sort -->
+      <div class="toolbar-row">
+        <div class="cat-strip" id="cat-strip" role="group" aria-label="Filter by category">
+          <button class="cat-pill active" onclick="filterPlaces('all')" data-cat="all">
+            All Places
+            <span class="cat-pill-count" id="count-all">0</span>
+          </button>
+          <!-- Dynamic categories -->
+        </div>
+        <div class="sort-group">
+          <span class="sort-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+            Sort
+          </span>
+          <div class="sort-pills" id="sort-pills" role="group" aria-label="Sort places">
+            <button class="sort-pill active" data-sort="rating" onclick="setSort('rating')">Top Rated</button>
+            <button class="sort-pill" data-sort="distance" onclick="setSort('distance')">Nearest</button>
+            <button class="sort-pill" data-sort="name" onclick="setSort('name')">A–Z</button>
+          </div>
+        </div>
       </div>
 
       <!-- Places grid -->
@@ -1065,6 +1255,20 @@ footer {
           <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w40"></div><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div></div></div>
           <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w40"></div><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div></div></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Highlights -->
+  <section class="section video-highlights hidden" id="video-highlights-section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-eyebrow">Poonch in Motion</div>
+        <h2 class="section-title">Watch Before You <em>Visit</em></h2>
+        <p class="section-desc">A closer look at Poonch's destinations, straight from the places themselves.</p>
+      </div>
+      <div class="place-videos-grid" id="video-highlights-grid">
+        <!-- Populated dynamically -->
       </div>
     </div>
   </section>
@@ -1134,6 +1338,12 @@ footer {
 
     <!-- Description -->
     <p class="place-detail-desc" id="place-detail-desc"></p>
+
+    <!-- Video gallery -->
+    <div id="place-videos-wrap" class="place-detail-section hidden">
+      <h3>Videos</h3>
+      <div class="place-videos-grid" id="place-videos-grid"></div>
+    </div>
 
     <!-- Image gallery -->
     <div id="place-gallery-wrap" class="place-detail-section hidden">
@@ -1216,8 +1426,29 @@ footer {
 let allPlaces = [];
 let allCats = [];
 let currentCat = 'all';
+let currentSort = 'rating';
+let currentSearch = '';
 let currentPlace = null;
 let previousPage = 'home';
+
+const CAT_ICONS = {
+  historical: '🏰', history: '🏰', fort: '🏰',
+  religious: '🕌', spiritual: '🕌', temple: '🕌', dargah: '🕌',
+  natural: '🏞️', nature: '🏞️', scenic: '🏞️', valley: '🏞️',
+  adventure: '🥾', trekking: '🥾', hiking: '🥾',
+  lake: '💧', river: '💧', waterfall: '💧',
+  meadow: '🌿', forest: '🌲', park: '🌲',
+  waterfall2: '💦',
+  wildlife: '🦌', park2: '🦌',
+  market: '🛍️', shopping: '🛍️',
+  food: '🍽️', cuisine: '🍽️',
+  viewpoint: '🌄', hill: '⛰️', mountain: '⛰️'
+};
+function iconForCategory(cat) {
+  const key = (cat || '').toLowerCase();
+  for (const k in CAT_ICONS) { if (key.includes(k)) return CAT_ICONS[k]; }
+  return '📍';
+}
 
 // ── NAVIGATION ──
 function showPage(name) {
@@ -1256,6 +1487,22 @@ function goBack() {
 
 function toggleMobile() {
   document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+// ── VIDEO HELPERS ──
+function getPlaceVideos(place) {
+  return place.videoUrls || place.videos || place.videoLinks || [];
+}
+function youtubeIdFromUrl(url) {
+  const m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{6,})/);
+  return m ? m[1] : null;
+}
+function videoEmbedHtml(url, title) {
+  const ytId = youtubeIdFromUrl(url);
+  if (ytId) {
+    return `<div class="video-embed"><iframe src="https://www.youtube.com/embed/${ytId}" title="${title||''}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+  }
+  return `<div class="video-embed"><video src="${url}" controls preload="metadata" playsinline></video></div>`;
 }
 
 // ── RENDER PLACE DETAIL ──
@@ -1301,6 +1548,17 @@ function renderPlaceDetail(place) {
 
   // Description
   document.getElementById('place-detail-desc').textContent = place.description || 'A beautiful destination in Poonch district waiting to be explored.';
+
+  // Videos
+  const videos = getPlaceVideos(place);
+  const videosWrap = document.getElementById('place-videos-wrap');
+  const videosGrid = document.getElementById('place-videos-grid');
+  if (videos.length > 0) {
+    videosGrid.innerHTML = videos.map(url => videoEmbedHtml(url, place.name)).join('');
+    videosWrap.classList.remove('hidden');
+  } else {
+    videosWrap.classList.add('hidden');
+  }
 
   // Gallery
   const gallery = imgs.slice(1);
@@ -1355,19 +1613,66 @@ function filterPlaces(cat) {
   renderPlaces();
 }
 
-// ── RENDER PLACES ──
-function renderPlaces() {
-  const filtered = currentCat === 'all' ? allPlaces : allPlaces.filter(p => (p.category||'').toLowerCase() === currentCat.toLowerCase() || (p.categories||[]).some(c=>c.toLowerCase()===currentCat.toLowerCase()));
-  const grid = document.getElementById('places-grid');
-  if (filtered.length === 0) {
-    grid.innerHTML = `<div class="places-grid"><div class="state-placeholder"><div class="state-icon">🏔️</div><p>No places found in this category yet.</p></div></div>`;
-    return;
+// ── SEARCH ──
+function focusSearch() {
+  showPage('home');
+  const input = document.getElementById('search-input');
+  document.getElementById('explore-section').scrollIntoView({behavior:'smooth'});
+  setTimeout(() => input && input.focus(), 350);
+}
+function handleSearch(value) {
+  currentSearch = (value || '').trim().toLowerCase();
+  document.getElementById('search-clear').classList.toggle('visible', currentSearch.length > 0);
+  renderPlaces();
+}
+function clearSearch() {
+  currentSearch = '';
+  const input = document.getElementById('search-input');
+  if (input) input.value = '';
+  document.getElementById('search-clear').classList.remove('visible');
+  renderPlaces();
+}
+
+// ── SORT ──
+function setSort(sort) {
+  currentSort = sort;
+  document.querySelectorAll('.sort-pill').forEach(p => p.classList.toggle('active', p.dataset.sort === sort));
+  renderPlaces();
+}
+
+function sortPlaces(list) {
+  const arr = [...list];
+  if (currentSort === 'rating') {
+    // Highest rating first; unrated places fall to the bottom
+    arr.sort((a, b) => (Number(b.rating) || 0) - (Number(a.rating) || 0));
+  } else if (currentSort === 'distance') {
+    // Closest to Poonch City first; places without distance data fall to the bottom
+    arr.sort((a, b) => {
+      const da = a.distanceKm != null ? Number(a.distanceKm) : Infinity;
+      const db = b.distanceKm != null ? Number(b.distanceKm) : Infinity;
+      return da - db;
+    });
+  } else if (currentSort === 'name') {
+    arr.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
   }
-  grid.innerHTML = `<div class="places-grid">${filtered.map(place => {
-    const img = (place.imageUrls||[])[0];
-    const imgHtml = img ? `<img class="place-card-img" src="${img}" alt="${place.name}" loading="lazy" onerror="this.parentElement.replaceChild(createPlaceholder(), this)">` : `<div class="place-card-img-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--slate-lt)" stroke-width="1.2"><path d="M3 17l5-8 4 5 3-4 6 7"/><circle cx="19" cy="6" r="2"/></svg></div>`;
-    return `<a class="place-card" href="#" onclick="event.preventDefault();showPlace('${place.id}')" title="${place.name} — Poonch Tourism">
-      ${imgHtml}
+  return arr;
+}
+
+// ── PLACE CARD BUILDER (shared by main grid + featured strip) ──
+function buildPlaceCardHtml(place, idx, showRank) {
+  const img = (place.imageUrls||[])[0];
+  const imgHtml = img ? `<img class="place-card-img" src="${img}" alt="${place.name}" loading="lazy" onerror="this.parentElement.replaceChild(createPlaceholder(), this)">` : `<div class="place-card-img-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--slate-lt)" stroke-width="1.2"><path d="M3 17l5-8 4 5 3-4 6 7"/><circle cx="19" cy="6" r="2"/></svg></div>`;
+  const ratingHtml = place.rating ? `<div class="place-card-rating"><svg width="11" height="11" viewBox="0 0 24 24" fill="var(--gold-lt)" stroke="var(--gold-lt)" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${Number(place.rating).toFixed(1)}</div>` : '';
+  const rankHtml = (showRank && place.rating && idx < 3) ? `<div class="place-card-rank">${idx + 1}</div>` : '';
+  const hasVideo = getPlaceVideos(place).length > 0;
+  const videoBadgeHtml = hasVideo ? `<div class="place-card-video-badge" title="Video available"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>` : '';
+  return `<a class="place-card" href="#" onclick="event.preventDefault();showPlace('${place.id}')" title="${place.name} — Poonch Tourism">
+      <div style="position:relative">
+        ${imgHtml}
+        ${ratingHtml}
+        ${videoBadgeHtml}
+        ${rankHtml}
+      </div>
       <div class="place-card-body">
         <div class="place-card-cat">${place.category||'Attraction'}</div>
         <div class="place-card-name">${place.name}</div>
@@ -1383,7 +1688,70 @@ function renderPlaces() {
         </div>
       </div>
     </a>`;
-  }).join('')}</div>`;
+}
+
+// ── RENDER PLACES ──
+function renderPlaces() {
+  let filteredRaw = currentCat === 'all' ? allPlaces : allPlaces.filter(p => (p.category||'').toLowerCase() === currentCat.toLowerCase() || (p.categories||[]).some(c=>c.toLowerCase()===currentCat.toLowerCase()));
+  if (currentSearch) {
+    filteredRaw = filteredRaw.filter(p => {
+      const haystack = [p.name, p.description, p.category, p.subCategory, p.subArea].filter(Boolean).join(' ').toLowerCase();
+      return haystack.includes(currentSearch);
+    });
+  }
+  const filtered = sortPlaces(filteredRaw);
+  const grid = document.getElementById('places-grid');
+  if (filtered.length === 0) {
+    const msg = currentSearch ? `No places match "${currentSearch}".` : 'No places found in this category yet.';
+    grid.innerHTML = `<div class="places-grid"><div class="state-placeholder"><div class="state-icon">🏔️</div><p>${msg}</p></div></div>`;
+    return;
+  }
+  grid.innerHTML = `<div class="places-grid">${filtered.map((place, idx) => buildPlaceCardHtml(place, idx, currentSort === 'rating')).join('')}</div>`;
+}
+
+// ── RENDER CATEGORY SHOWCASE ──
+function renderCategoryShowcase(catMap) {
+  const grid = document.getElementById('cat-cards-grid');
+  if (!grid) return;
+  grid.innerHTML = allCats.map(cat => `
+    <a class="cat-card" href="#" onclick="event.preventDefault();showPage('home');filterPlaces('${cat.replace(/'/g,"\\'")}');document.getElementById('explore-section').scrollIntoView({behavior:'smooth'})">
+      <div class="cat-card-icon">${iconForCategory(cat)}</div>
+      <div class="cat-card-name">${cat}</div>
+      <div class="cat-card-count">${catMap[cat]} place${catMap[cat] === 1 ? '' : 's'}</div>
+      <div class="cat-card-arrow">→</div>
+    </a>
+  `).join('');
+}
+
+// ── RENDER FEATURED (TOP RATED) ──
+function renderFeatured() {
+  const wrap = document.getElementById('featured-section');
+  const scroll = document.getElementById('featured-scroll');
+  const rated = allPlaces.filter(p => p.rating > 0).sort((a,b) => Number(b.rating) - Number(a.rating)).slice(0, 8);
+  if (!wrap || !scroll) return;
+  if (rated.length === 0) { wrap.classList.add('hidden'); return; }
+  wrap.classList.remove('hidden');
+  scroll.innerHTML = rated.map((place, idx) => buildPlaceCardHtml(place, idx, true)).join('');
+}
+
+// ── RENDER VIDEO HIGHLIGHTS ──
+function renderVideoHighlights() {
+  const section = document.getElementById('video-highlights-section');
+  const grid = document.getElementById('video-highlights-grid');
+  if (!section || !grid) return;
+  const withVideos = allPlaces.filter(p => getPlaceVideos(p).length > 0).slice(0, 6);
+  if (withVideos.length === 0) { section.classList.add('hidden'); return; }
+  section.classList.remove('hidden');
+  grid.innerHTML = withVideos.map(place => {
+    const url = getPlaceVideos(place)[0];
+    return `<div class="video-highlight-card">
+      ${videoEmbedHtml(url, place.name)}
+      <div class="video-highlight-label">
+        <a href="#" onclick="event.preventDefault();showPlace('${place.id}')" style="color:inherit;text-decoration:none">${place.name}</a>
+        <span class="cat">${place.category || ''}</span>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ── LOAD DATA ──
@@ -1435,6 +1803,11 @@ async function loadData() {
       const wrap = document.getElementById('hero-main-img-wrap');
       wrap.innerHTML = `<img src="${firstWithImg.imageUrls[0]}" alt="Poonch Tourism" style="width:100%;height:100%;object-fit:cover">`;
     }
+
+    // Render new home page sections
+    renderCategoryShowcase(catMap);
+    renderFeatured();
+    renderVideoHighlights();
 
     // Render places
     renderPlaces();
