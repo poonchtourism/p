@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -421,6 +422,114 @@ footer { background: var(--forest); border-top: 1px solid rgba(255,255,255,0.06)
 .toast.err { background: var(--error); }
 @keyframes toastIn { from{transform:translateX(20px);opacity:0;} to{transform:translateX(0);opacity:1;} }
 
+/* ══════════════════════════════════════
+   ANIMATION SYSTEM — matched to homepage's motion language
+════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(1.15); }
+}
+@keyframes chipPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+@keyframes tagIn {
+  from { opacity: 0; transform: scale(0.8) translateY(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes mistDrift {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(2%); }
+  100% { transform: translateX(0); }
+}
+
+/* Hero load-in — plays once on page load, staggered */
+.hero-badge, .hero-title, .hero-subtitle, #hero .btn {
+  opacity: 0;
+  animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1) both;
+}
+.hero-badge   { animation-delay: .05s; }
+.hero-title   { animation-delay: .16s; }
+.hero-subtitle{ animation-delay: .28s; }
+#hero .btn    { animation-delay: .4s; }
+.hero-badge::before { animation: dotPulse 2.2s ease-in-out infinite; }
+#hero::before { animation: mistDrift 14s ease-in-out infinite; }
+
+/* Generic scroll-reveal: add data-anim="fade-up|fade-in|scale-in|slide-right" + optional style="--d:.15s" for stagger */
+[data-anim] { opacity: 0; }
+[data-anim].visible {
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(.22,.68,0,1);
+  animation-fill-mode: both;
+  animation-delay: var(--d, 0s);
+}
+[data-anim="fade-up"].visible     { animation-name: fadeUp; }
+[data-anim="fade-in"].visible     { animation-name: fadeIn; }
+[data-anim="scale-in"].visible    { animation-name: scaleIn; }
+[data-anim="slide-right"].visible { animation-name: slideRight; }
+
+/* Tactile micro-interactions */
+.btn:active, .month-chip:active, .upload-zone:active {
+  transform: scale(0.97);
+}
+.month-chip.selected.just-selected { animation: chipPop 0.32s ease; }
+
+/* New tag pop-in */
+.tag { animation: tagIn 0.28s cubic-bezier(.22,.68,0,1.1) both; }
+
+/* Image preview entrance */
+.img-preview-wrap { animation: scaleIn 0.35s cubic-bezier(.22,.68,0,1) both; }
+
+/* Success overlay staggered rise (icon already has popIn) */
+.success-overlay.show .success-title { animation: fadeUp 0.5s cubic-bezier(.22,.68,0,1) 0.1s both; }
+.success-overlay.show .success-sub   { animation: fadeUp 0.5s cubic-bezier(.22,.68,0,1) 0.18s both; }
+.success-overlay.show .btn-outline   { animation: fadeUp 0.5s cubic-bezier(.22,.68,0,1) 0.26s both; }
+
+/* Nav entrance */
+nav { animation: fadeIn 0.5s ease both; }
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-anim] { opacity: 1 !important; transform: none !important; }
+  .hero-badge, .hero-title, .hero-subtitle, #hero .btn { opacity: 1 !important; }
+}
+
+/* Staggered field entrance within the form (CSS-only, no markup changes needed) */
+.form-grid > * {
+  opacity: 0;
+  animation: fadeUp 0.55s cubic-bezier(.22,.68,0,1) both;
+}
+.form-grid > *:nth-child(1) { animation-delay: .04s; }
+.form-grid > *:nth-child(2) { animation-delay: .09s; }
+.form-grid > *:nth-child(3) { animation-delay: .14s; }
+.form-grid > *:nth-child(4) { animation-delay: .19s; }
+.form-grid > *:nth-child(5) { animation-delay: .24s; }
+.form-grid > *:nth-child(6) { animation-delay: .29s; }
+.form-grid > *:nth-child(7) { animation-delay: .34s; }
+
 /* ── RESPONSIVE ── */
 @media(max-width: 640px) {
   .form-row { grid-template-columns: 1fr; }
@@ -475,11 +584,11 @@ footer { background: var(--forest); border-top: 1px solid rgba(255,255,255,0.06)
 <!-- ── FORM ── -->
 <section class="section" id="submit">
   <div class="section-inner">
-    <div class="section-eyebrow">Submit a Place</div>
-    <h2 class="section-title">Tell us about the <em>place</em></h2>
-    <p class="section-desc">Fill in as much as you know. Every submission is reviewed by our team before going live — so even rough details help.</p>
+    <div class="section-eyebrow" data-anim="fade-up">Submit a Place</div>
+    <h2 class="section-title" data-anim="fade-up" style="--d:.08s">Tell us about the <em>place</em></h2>
+    <p class="section-desc" data-anim="fade-up" style="--d:.16s">Fill in as much as you know. Every submission is reviewed by our team before going live — so even rough details help.</p>
 
-    <div class="form-card" id="form-card">
+    <div class="form-card" id="form-card" data-anim="scale-in" style="--d:.1s">
       <div class="form-card-header">
         <div class="form-card-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -681,6 +790,17 @@ window.addEventListener('scroll', () => {
   document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
 });
 
+// ── Scroll-reveal for [data-anim] elements ──
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('[data-anim]').forEach(el => revealObserver.observe(el));
+
 // ── Firebase ready ──
 window.addEventListener('firebase-ready', () => {
   db = window._db;
@@ -722,8 +842,18 @@ function charCount(el, counterId, max) {
 // ── Month chips ──
 function toggleMonth(m) {
   const i = selectedMonths.indexOf(m);
-  if(i === -1) selectedMonths.push(m); else selectedMonths.splice(i,1);
+  const nowSelected = i === -1;
+  if(nowSelected) selectedMonths.push(m); else selectedMonths.splice(i,1);
   renderMonthChips();
+  if(nowSelected) {
+    document.querySelectorAll('#month-chips .month-chip').forEach(chip => {
+      const name = chip.getAttribute('onclick').match(/'([^']+)'/)[1];
+      if(name === m) {
+        chip.classList.add('just-selected');
+        chip.addEventListener('animationend', () => chip.classList.remove('just-selected'), {once:true});
+      }
+    });
+  }
 }
 function renderMonthChips() {
   document.querySelectorAll('#month-chips .month-chip').forEach(chip => {
