@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,6 +97,17 @@ body {
   color: var(--slate);
   line-height: 1.6;
   overflow-x: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* Still allow selecting text inside actual input fields */
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
 }
 
 /* ── HIDDEN UTILITY ── */
@@ -828,12 +837,104 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .video-embed iframe, .video-embed video {
   position:absolute; inset:0; width:100%; height:100%; border:0; display:block;
 }
+
+/* ── UNIFIED PHOTO + VIDEO GALLERY (place detail page) ── */
+.place-gallery-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:12px;
+  margin-bottom:40px;
+}
+.gallery-tile {
+  position:relative; width:100%; height:180px;
+  border-radius:var(--radius-md); overflow:hidden;
+  background:#0c0c0c;
+  box-shadow:var(--shadow-sm);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.gallery-tile.gallery-img { cursor:pointer; }
+.gallery-tile:hover { box-shadow:var(--shadow-md); transform: translateY(-2px); }
+.gallery-tile img, .gallery-tile video, .gallery-tile iframe {
+  position:absolute; inset:0; width:100%; height:100%; border:0; display:block; object-fit:cover;
+}
+.gallery-tile .gallery-play-badge {
+  position:absolute; top:8px; right:8px; z-index:2; pointer-events:none;
+  width:26px; height:26px; border-radius:50%;
+  background:rgba(12,12,12,0.65); backdrop-filter:blur(2px);
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ── DISCOURAGE SAVING / DOWNLOADING MEDIA ── */
+/* Note: this deters casual long-press / right-click saving; it cannot block
+   screenshots, dev tools, or other OS-level capture methods. */
+img, video {
+  -webkit-touch-callout: none;   /* disables iOS long-press "Save Image" menu */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: auto;
+}
+video::-internal-media-controls-download-button { display:none; }
+video::-webkit-media-controls-download-button { display:none; }
+video::-webkit-media-controls-enclosure { overflow:hidden; }
 .place-share-row {
   display:flex; align-items:center; gap:12px; flex-wrap:wrap;
   padding:24px; background:var(--ivory-2); border-radius:var(--radius-md);
   margin-top:48px;
 }
 .place-share-row p { font-size:14px; color:var(--slate-mid); flex:1; }
+
+/* ── TREK INFO ── */
+.trek-info-box {
+  background: var(--ivory-2);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  font-size: 14.5px; color: var(--slate);
+  line-height: 1.75;
+  white-space: pre-line;
+}
+
+/* ── ROUTE GUIDE (numbered steps with connecting line) ── */
+.route-steps {
+  position: relative;
+  margin-left: 4px;
+}
+.route-steps::before {
+  content: '';
+  position: absolute;
+  top: 6px; bottom: 6px; left: 15px;
+  width: 2px;
+  background: var(--ivory-3);
+}
+.route-step {
+  position: relative;
+  padding-left: 46px;
+  margin-bottom: 26px;
+}
+.route-step:last-child { margin-bottom: 0; }
+.route-step-num {
+  position: absolute; left: 0; top: 0;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--forest); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 14px;
+  box-shadow: 0 0 0 4px var(--ivory);
+  z-index: 1;
+}
+.route-step-title {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 600; color: var(--forest);
+  line-height: 1.3;
+}
+.route-step-subtitle {
+  font-size: 12px; font-style: italic; font-weight: 500;
+  color: var(--gold); text-transform: uppercase; letter-spacing: 0.03em;
+  margin: 3px 0 8px;
+}
+.route-step-desc {
+  font-size: 14px; color: var(--slate-mid); line-height: 1.65;
+}
 
 
 /* ── COLLAB SECTION ── */
@@ -1322,7 +1423,7 @@ footer {
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       All Places
     </a>
-    <img id="place-hero-img" src="" alt="" style="display:none">
+    <img id="place-hero-img" src="" alt="" style="display:none" draggable="false" oncontextmenu="return false">
     <div id="place-hero-placeholder" style="position:absolute;inset:0;background:linear-gradient(135deg,var(--forest),var(--forest-mid));display:flex;align-items:center;justify-content:center">
       <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"><path d="M3 17l5-8 4 5 3-4 6 7"/><circle cx="19" cy="6" r="2"/></svg>
     </div>
@@ -1355,16 +1456,22 @@ footer {
     <!-- Description -->
     <p class="place-detail-desc" id="place-detail-desc"></p>
 
-    <!-- Video gallery -->
-    <div id="place-videos-wrap" class="place-detail-section hidden">
-      <h3>Videos</h3>
-      <div class="place-videos-grid" id="place-videos-grid"></div>
+    <!-- Trek Information -->
+    <div id="place-trek-wrap" class="place-detail-section hidden">
+      <h3>Trek Information</h3>
+      <div class="trek-info-box" id="place-trek-info"></div>
     </div>
 
-    <!-- Image gallery -->
+    <!-- Route Guide -->
+    <div id="place-route-wrap" class="place-detail-section hidden">
+      <h3>Route Guide</h3>
+      <div class="route-steps" id="place-route-steps"></div>
+    </div>
+
+    <!-- Photo + Video gallery (merged) -->
     <div id="place-gallery-wrap" class="place-detail-section hidden">
       <h3>Gallery</h3>
-      <div class="place-images-grid" id="place-images-grid"></div>
+      <div class="place-gallery-grid" id="place-gallery-grid"></div>
     </div>
 
     <!-- Tips -->
@@ -1430,7 +1537,7 @@ footer {
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close">✕</button>
-  <img id="lightbox-img" src="" alt="">
+  <img id="lightbox-img" src="" alt="" draggable="false" oncontextmenu="return false">
 </div>
 
 <!-- Toast container -->
@@ -1507,7 +1614,19 @@ function toggleMobile() {
 
 // ── VIDEO HELPERS ──
 function getPlaceVideos(place) {
-  return place.videoUrls || place.videos || place.videoLinks || [];
+  const explicit = place.videoUrls || place.videos || place.videoLinks || [];
+  const fromImages = (place.imageUrls || []).filter(isVideoUrl);
+  return [...explicit, ...fromImages];
+}
+function isVideoUrl(url) {
+  if (!url) return false;
+  if (/\.(mp4|mov|avi|webm|mkv)(\?.*)?$/i.test(url)) return true;
+  if (youtubeIdFromUrl(url)) return true;
+  if (/vimeo\.com\//i.test(url)) return true;
+  return false;
+}
+function getPlaceImages(place) {
+  return (place.imageUrls || []).filter(url => !isVideoUrl(url));
 }
 function youtubeIdFromUrl(url) {
   const m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{6,})/);
@@ -1518,13 +1637,34 @@ function videoEmbedHtml(url, title) {
   if (ytId) {
     return `<div class="video-embed"><iframe src="https://www.youtube.com/embed/${ytId}" title="${title||''}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
   }
-  return `<div class="video-embed"><video src="${url}" controls preload="metadata" playsinline></video></div>`;
+  return `<div class="video-embed"><video src="${url}" controls controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false" preload="metadata" playsinline></video></div>`;
+}
+
+// Compact inner markup for videos placed inside a fixed-size gallery tile
+function galleryVideoInnerHtml(url, title) {
+  const ytId = youtubeIdFromUrl(url);
+  if (ytId) {
+    return `<iframe src="https://www.youtube.com/embed/${ytId}" title="${title||''}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <span class="gallery-play-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><polygon points="6 3 20 12 6 21 6 3"/></svg></span>`;
+  }
+  return `<video src="${url}" controls controlsList="nodownload noremoteplayback" disablePictureInPicture oncontextmenu="return false" preload="metadata" playsinline></video>
+    <span class="gallery-play-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><polygon points="6 3 20 12 6 21 6 3"/></svg></span>`;
+}
+
+// Builds one tile (image or video) for the merged place-detail gallery
+function buildGalleryTileHtml(item, place) {
+  if (item.type === 'video') {
+    return `<div class="gallery-tile gallery-video">${galleryVideoInnerHtml(item.url, place.name)}</div>`;
+  }
+  return `<div class="gallery-tile gallery-img" onclick="openLightbox('${item.url}')">
+    <img src="${item.url}" alt="${place.name}" loading="lazy" draggable="false" oncontextmenu="return false" onerror="this.closest('.gallery-tile').remove()">
+  </div>`;
 }
 
 // ── RENDER PLACE DETAIL ──
 function renderPlaceDetail(place) {
   // Hero image
-  const imgs = place.imageUrls || [];
+  const imgs = getPlaceImages(place);
   const heroImg = document.getElementById('place-hero-img');
   const heroPlaceholder = document.getElementById('place-hero-placeholder');
   if (imgs.length > 0) {
@@ -1565,23 +1705,49 @@ function renderPlaceDetail(place) {
   // Description
   document.getElementById('place-detail-desc').textContent = place.description || 'A beautiful destination in Poonch district waiting to be explored.';
 
-  // Videos
-  const videos = getPlaceVideos(place);
-  const videosWrap = document.getElementById('place-videos-wrap');
-  const videosGrid = document.getElementById('place-videos-grid');
-  if (videos.length > 0) {
-    videosGrid.innerHTML = videos.map(url => videoEmbedHtml(url, place.name)).join('');
-    videosWrap.classList.remove('hidden');
+  // Trek Information
+  const trekWrap = document.getElementById('place-trek-wrap');
+  const trekInfoEl = document.getElementById('place-trek-info');
+  if (place.trekInformation) {
+    trekInfoEl.textContent = place.trekInformation;
+    trekWrap.classList.remove('hidden');
   } else {
-    videosWrap.classList.add('hidden');
+    trekWrap.classList.add('hidden');
   }
 
-  // Gallery
-  const gallery = imgs.slice(1);
+  // Route Guide
+  const routeWrap = document.getElementById('place-route-wrap');
+  const routeStepsEl = document.getElementById('place-route-steps');
+  const routeGuide = place.routeGuide || [];
+  if (routeGuide.length > 0) {
+    routeStepsEl.innerHTML = routeGuide.map((step, i) => `
+      <div class="route-step">
+        <div class="route-step-num">${i + 1}</div>
+        <div class="route-step-title">${step.title || ''}</div>
+        ${step.subtitle ? `<div class="route-step-subtitle">${step.subtitle}</div>` : ''}
+        ${step.description ? `<div class="route-step-desc">${step.description}</div>` : ''}
+      </div>
+    `).join('');
+    routeWrap.classList.remove('hidden');
+  } else {
+    routeWrap.classList.add('hidden');
+  }
+
+  // Gallery (photos + videos merged into a single grid, hero image excluded)
+  const heroUrl = imgs[0];
+  const rawUrls = place.imageUrls || [];
+  const explicitVideos = place.videoUrls || place.videos || place.videoLinks || [];
+  const galleryItems = [];
+  rawUrls.forEach(url => {
+    if (url === heroUrl) return; // hero already shown above, skip duplicate
+    galleryItems.push({ type: isVideoUrl(url) ? 'video' : 'image', url });
+  });
+  explicitVideos.forEach(url => galleryItems.push({ type: 'video', url }));
+
   const galleryWrap = document.getElementById('place-gallery-wrap');
-  const galleryGrid = document.getElementById('place-images-grid');
-  if (gallery.length > 0) {
-    galleryGrid.innerHTML = gallery.map(url => `<img src="${url}" alt="${place.name}" onclick="openLightbox('${url}')" loading="lazy" onerror="this.parentElement.removeChild(this)">`).join('');
+  const galleryGrid = document.getElementById('place-gallery-grid');
+  if (galleryItems.length > 0) {
+    galleryGrid.innerHTML = galleryItems.map(item => buildGalleryTileHtml(item, place)).join('');
     galleryWrap.classList.remove('hidden');
   } else {
     galleryWrap.classList.add('hidden');
@@ -1676,8 +1842,8 @@ function sortPlaces(list) {
 
 // ── PLACE CARD BUILDER (shared by main grid + featured strip) ──
 function buildPlaceCardHtml(place, idx, showRank) {
-  const img = (place.imageUrls||[])[0];
-  const imgHtml = img ? `<img class="place-card-img" src="${img}" alt="${place.name}" loading="lazy" onerror="this.parentElement.replaceChild(createPlaceholder(), this)">` : `<div class="place-card-img-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--slate-lt)" stroke-width="1.2"><path d="M3 17l5-8 4 5 3-4 6 7"/><circle cx="19" cy="6" r="2"/></svg></div>`;
+  const img = getPlaceImages(place)[0];
+  const imgHtml = img ? `<img class="place-card-img" src="${img}" alt="${place.name}" loading="lazy" draggable="false" oncontextmenu="return false" onerror="this.parentElement.replaceChild(createPlaceholder(), this)">` : `<div class="place-card-img-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--slate-lt)" stroke-width="1.2"><path d="M3 17l5-8 4 5 3-4 6 7"/><circle cx="19" cy="6" r="2"/></svg></div>`;
   const ratingHtml = place.rating ? `<div class="place-card-rating"><svg width="11" height="11" viewBox="0 0 24 24" fill="var(--gold-lt)" stroke="var(--gold-lt)" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${Number(place.rating).toFixed(1)}</div>` : '';
   const rankHtml = (showRank && place.rating && idx < 3) ? `<div class="place-card-rank">${idx + 1}</div>` : '';
   const hasVideo = getPlaceVideos(place).length > 0;
@@ -1814,10 +1980,10 @@ async function loadData() {
     });
 
     // Hero image from first place
-    const firstWithImg = allPlaces.find(p => (p.imageUrls||[]).length > 0);
+    const firstWithImg = allPlaces.find(p => getPlaceImages(p).length > 0);
     if (firstWithImg) {
       const wrap = document.getElementById('hero-main-img-wrap');
-      wrap.innerHTML = `<img src="${firstWithImg.imageUrls[0]}" alt="Poonch Tourism" style="width:100%;height:100%;object-fit:cover">`;
+      wrap.innerHTML = `<img src="${getPlaceImages(firstWithImg)[0]}" alt="Poonch Tourism" style="width:100%;height:100%;object-fit:cover" draggable="false" oncontextmenu="return false">`;
     }
 
     // Render new home page sections
@@ -1870,6 +2036,14 @@ function showToast(msg) {
   document.getElementById('toast-wrap').appendChild(t);
   setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(()=>t.remove(),300); }, 3000);
 }
+
+// ── DISCOURAGE MEDIA SAVING / COPYING (best-effort deterrent, not foolproof) ──
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('dragstart', e => {
+  if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') e.preventDefault();
+});
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut', e => e.preventDefault());
 
 // ── NAV SCROLL ──
 window.addEventListener('scroll', () => {
