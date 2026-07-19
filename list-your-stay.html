@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List Your Stay — Poonch Tourism</title>
+<meta name="description" content="Own a homestay, guest house or hotel in Poonch? List your property on Poonch Tourism and reach travelers exploring the district.">
+<meta name="theme-color" content="#1C3829">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dwtewffsh/image/upload/v1782970712/d6ae94f7-ea19-44e1-a9d6-c89a343e504d.png">
+<link rel="shortcut icon" href="https://res.cloudinary.com/dwtewffsh/image/upload/v1782970712/d6ae94f7-ea19-44e1-a9d6-c89a343e504d.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/dwtewffsh/image/upload/v1782970712/d6ae94f7-ea19-44e1-a9d6-c89a343e504d.png">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import { getFirestore, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCoswR0H9KLnGU8Y7NvUtwHL7ELXdtBZ-c",
+    authDomain: "poonch-tourism.firebaseapp.com",
+    projectId: "poonch-tourism",
+    storageBucket: "poonch-tourism.firebasestorage.app",
+    messagingSenderId: "1015030062941",
+    appId: "1:1015030062941:web:a2b0ed816266b5f230d2b4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  window._db = db;
+  window._fns = { collection, getDocs, addDoc, serverTimestamp, query, orderBy };
+  window.dispatchEvent(new Event('firebase-ready'));
+</script>
+
+<style>
+:root {
+  --ivory:      #FAF8F4;
+  --ivory-2:    #F2EFE9;
+  --ivory-3:    #E8E3DA;
+  --forest:     #1C3829;
+  --forest-mid: #2A5240;
+  --forest-lt:  #3D7057;
+  --gold:       #B08D57;
+  --gold-lt:    #C9A96E;
+  --gold-pale:  #EDD9B0;
+  --slate:      #3D4A45;
+  --slate-mid:  #6B7C76;
+  --slate-lt:   #9AADA6;
+  --white:      #FFFFFF;
+  --danger:     #B3492F;
+  --shadow-sm:  0 1px 3px rgba(28,56,41,0.06), 0 1px 2px rgba(28,56,41,0.04);
+  --shadow-md:  0 4px 16px rgba(28,56,41,0.08), 0 2px 6px rgba(28,56,41,0.04);
+  --shadow-lg:  0 12px 40px rgba(28,56,41,0.12), 0 4px 12px rgba(28,56,41,0.06);
+  --shadow-xl:  0 24px 64px rgba(28,56,41,0.14);
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  22px;
+  --radius-xl:  32px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --nav-h:        68px;
+  --page-max:     1280px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font-body);
+  background: var(--ivory);
+  color: var(--slate);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0;
+  height: var(--nav-h);
+  background: rgba(250,248,244,0.92);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--ivory-3);
+  z-index: 900;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(20px, 5vw, 60px);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: var(--shadow-md); }
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+.nav-logo-mark {
+  width: 38px; height: 38px;
+  background: var(--forest);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-logo-mark svg { width:20px; height:20px; }
+.nav-brand { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--forest); letter-spacing: 0.01em; }
+.nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
+.nav-link {
+  padding: 8px 14px; font-size: 14px; font-weight: 500;
+  color: var(--slate-mid); text-decoration: none;
+  border-radius: var(--radius-sm); transition: all 0.2s;
+}
+.nav-link:hover { color: var(--forest); background: var(--ivory-2); }
+.nav-link.active { color: var(--forest); font-weight: 600; }
+.nav-cta { display:flex; align-items:center; gap:10px; }
+.nav-hamburger {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 36px; height: 36px; background: none; border: none; cursor: pointer; padding: 4px;
+}
+.nav-hamburger span { display: block; height: 2px; width: 22px; background: var(--forest); border-radius: 2px; transition: all 0.25s; }
+.mobile-menu {
+  display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
+  background: var(--white); border-bottom: 1px solid var(--ivory-3); z-index: 899;
+  padding: 16px 24px 24px; flex-direction: column; gap: 4px; box-shadow: var(--shadow-lg);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  display: block; padding: 12px 14px; font-size: 15px; font-weight: 500;
+  color: var(--slate); text-decoration: none; border-radius: var(--radius-sm); transition: background 0.2s;
+}
+.mobile-menu a:hover { background: var(--ivory-2); color: var(--forest); }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content:center; gap: 7px;
+  padding: 9px 20px; font-family: var(--font-body); font-size: 13.5px; font-weight: 600;
+  border-radius: var(--radius-sm); border: none; cursor: pointer; text-decoration: none;
+  transition: all 0.2s; white-space: nowrap;
+}
+.btn-primary { background: var(--forest); color: var(--white); }
+.btn-primary:hover { background: var(--forest-mid); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-primary:disabled { opacity:0.55; cursor:not-allowed; transform:none; box-shadow:none; }
+.btn-outline { background: transparent; color: var(--forest); border: 1.5px solid var(--ivory-3); }
+.btn-outline:hover { border-color: var(--forest); background: var(--ivory-2); }
+.btn-lg { padding: 13px 30px; font-size: 15px; width:100%; }
+
+/* ── HERO ── */
+.hero-strip {
+  padding-top: calc(var(--nav-h) + 56px);
+  padding-bottom: 48px;
+  padding-left: clamp(20px, 5vw, 60px);
+  padding-right: clamp(20px, 5vw, 60px);
+  background: linear-gradient(165deg, #F0EDE6 0%, #E8E3D8 45%, #DCEEE2 100%);
+  position: relative; overflow:hidden;
+}
+.hero-strip::before {
+  content:''; position:absolute; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%231C3829' stroke-width='1'%3E%3Cpath opacity='0.05' d='M-20 380 C 80 340, 160 420, 260 360 S 460 300, 620 350'/%3E%3Cpath opacity='0.06' d='M-20 420 C 90 385, 170 450, 270 400 S 470 345, 620 390'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover; pointer-events:none;
+}
+.hero-strip-inner { max-width: 720px; margin:0 auto; text-align:center; position:relative; }
+.section-eyebrow {
+  display: inline-flex; align-items:center; gap:8px;
+  font-size: 11.5px; font-weight: 700; color: var(--gold);
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px;
+}
+.section-eyebrow::before { content:''; display:block; width:24px; height:1.5px; background:var(--gold); border-radius:2px; }
+.hero-strip h1 {
+  font-family: var(--font-display); font-size: clamp(34px, 5vw, 54px); font-weight:600;
+  color: var(--forest); line-height:1.1; letter-spacing:-0.01em;
+}
+.hero-strip h1 em { font-style:italic; color:var(--gold); }
+.hero-strip p {
+  margin-top:16px; font-size:16.5px; color:var(--slate-mid);
+  max-width:520px; margin-left:auto; margin-right:auto; line-height:1.7;
+}
+
+/* ── STEPS ── */
+.steps-row {
+  max-width: var(--page-max); margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 60px) 8px;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+  margin-top: 40px;
+}
+.step-card {
+  background: var(--white); border:1px solid var(--ivory-3); border-radius: var(--radius-lg);
+  padding: 22px 22px; display:flex; gap:14px; align-items:flex-start; box-shadow: var(--shadow-sm);
+}
+.step-num {
+  width:32px; height:32px; border-radius:50%; flex-shrink:0;
+  background: var(--forest); color:var(--white);
+  font-family:var(--font-display); font-weight:700; font-size:15px;
+  display:flex; align-items:center; justify-content:center;
+}
+.step-card h3 { font-size:15px; font-weight:700; color:var(--forest); margin-bottom:4px; }
+.step-card p { font-size:13px; color:var(--slate-mid); line-height:1.55; }
+
+/* ── FORM SECTION ── */
+.form-section { padding: 64px clamp(20px, 5vw, 60px) 100px; }
+.form-card {
+  max-width: 720px; margin: 0 auto;
+  background: var(--white); border:1px solid var(--ivory-3);
+  border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
+  padding: clamp(28px, 5vw, 48px);
+}
+.form-card-head { margin-bottom: 32px; }
+.form-card-head h2 { font-family:var(--font-display); font-size:28px; font-weight:600; color:var(--forest); }
+.form-card-head p { margin-top:6px; font-size:13.5px; color:var(--slate-mid); }
+
+.form-grid { display:flex; flex-direction:column; gap:22px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.field { display:flex; flex-direction:column; gap:7px; }
+.field label {
+  font-size: 12.5px; font-weight:700; color:var(--forest);
+  letter-spacing:0.02em; display:flex; align-items:center; gap:6px;
+}
+.field label .req { color:var(--gold); }
+.field label .opt { font-weight:500; color:var(--slate-lt); text-transform:none; letter-spacing:0; font-size:11.5px; }
+.field input[type="text"], .field input[type="number"], .field input[type="tel"],
+.field input[type="url"], .field input[type="email"], .field textarea, .field select {
+  width:100%;
+  border: 1.5px solid var(--ivory-3); border-radius: var(--radius-sm);
+  background: var(--ivory); padding: 12px 14px;
+  font-family: var(--font-body); font-size:14.5px; color:var(--slate);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.field textarea { resize: vertical; min-height: 96px; line-height:1.6; }
+.field select { cursor:pointer; appearance:none; -webkit-appearance:none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7C76' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center; background-size:16px; padding-right:36px;
+}
+.field select:invalid { color: var(--slate-lt); }
+.field input:focus, .field textarea:focus, .field select:focus {
+  outline:none; border-color: var(--forest-lt); background:var(--white);
+  box-shadow: 0 0 0 4px rgba(61,112,87,0.1);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--slate-lt); }
+.field-hint { font-size:11.5px; color:var(--slate-lt); line-height:1.5; }
+
+/* Tag inputs (image URLs / amenities) */
+.tag-input-wrap {
+  background: var(--ivory); border: 1.5px solid var(--ivory-3); border-radius: var(--radius-sm);
+  padding: 9px 11px; display:flex; flex-wrap:wrap; gap:7px; min-height:48px; cursor:text;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.tag-input-wrap:focus-within { border-color: var(--forest-lt); background:var(--white); box-shadow: 0 0 0 4px rgba(61,112,87,0.1); }
+.tag {
+  background: rgba(28,56,41,0.07); border:1px solid rgba(28,56,41,0.14);
+  color: var(--forest); font-size:12.5px; font-weight:600;
+  padding:4px 9px; border-radius:6px; display:inline-flex; align-items:center; gap:6px;
+}
+.tag-remove { cursor:pointer; opacity:0.6; line-height:1; font-size:13px; }
+.tag-remove:hover { opacity:1; }
+.tag-move { cursor:pointer; opacity:0.5; font-size:10px; line-height:1; padding:0 1px; user-select:none; }
+.tag-move:hover { opacity:1; }
+.tag-thumb-badge { font-size:9px; font-weight:700; background:var(--forest); color:#fff; border-radius:4px; padding:1px 5px; letter-spacing:0.03em; }
+.tag-input { flex:1; min-width:120px; background:none; border:none; outline:none; font-family:var(--font-body); font-size:13.5px; color:var(--slate); }
+.tag-input::placeholder { color: var(--slate-lt); }
+.img-preview-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+.img-preview-thumb { width:52px; height:52px; object-fit:cover; border-radius:8px; border:1.5px solid var(--ivory-3); cursor:pointer; transition:transform 0.15s; }
+.img-preview-thumb:hover { transform:scale(1.08); }
+
+/* Photo upload zone */
+.upload-zone {
+  border: 2px dashed var(--ivory-3); border-radius: var(--radius-lg);
+  background: var(--ivory); padding: 28px 20px; text-align:center;
+  cursor:pointer; transition: all 0.2s ease; position:relative; overflow:hidden;
+}
+.upload-zone:hover, .upload-zone.drag-over { border-color: var(--forest-lt); background: #EEF6F0; }
+.upload-zone input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; font-size:0; width:100%; height:100%; }
+.upload-icon {
+  width:46px; height:46px; margin:0 auto 12px;
+  background: var(--white); border:1px solid var(--ivory-3); border-radius:12px;
+  display:flex; align-items:center; justify-content:center; color: var(--forest);
+}
+.upload-title { font-family: var(--font-display); font-size:16.5px; font-weight:600; color:var(--forest); margin-bottom:4px; }
+.upload-sub { font-size:12.5px; color:var(--slate-mid); line-height:1.5; }
+.upload-sub span { color: var(--gold); font-weight:700; }
+.upload-limit { font-size:11px; color:var(--slate-lt); margin-top:6px; }
+.uploading-banner {
+  display:none; align-items:center; gap:10px;
+  background: var(--ivory-2); border:1px solid var(--ivory-3); border-left:3px solid var(--forest-lt);
+  border-radius: var(--radius-md); padding:11px 14px; margin-top:10px;
+  font-size:12.5px; color:var(--forest); font-weight:500;
+}
+.uploading-banner.show { display:flex; }
+.uploading-banner .progress-bar-wrap { flex:1; height:5px; background:var(--ivory-3); border-radius:4px; overflow:hidden; }
+.uploading-banner .progress-bar { height:100%; width:0%; background: var(--gold-lt); border-radius:4px; transition: width 0.25s ease; }
+.uploading-banner .progress-pct { font-size:11.5px; font-weight:700; color:var(--forest); min-width:32px; text-align:right; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { flex-shrink:0; display:inline-block; width:15px; height:15px; border:2px solid var(--ivory-3); border-top-color: var(--forest); border-radius:50%; animation: spin 0.7s linear infinite; }
+
+/* Amenity quick-add chips */
+.quick-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:2px; }
+.quick-chip {
+  font-size:12px; font-weight:600; padding:6px 12px; border-radius:20px;
+  border:1.5px solid var(--ivory-3); background:var(--ivory); color:var(--slate-mid);
+  cursor:pointer; transition:all 0.15s; user-select:none;
+}
+.quick-chip:hover { border-color:var(--gold-lt); color:var(--forest); }
+.quick-chip.added { background:var(--forest); border-color:var(--forest); color:var(--white); }
+
+/* Nearby places picker */
+.nearby-search-wrap { position:relative; }
+.nearby-dropdown {
+  position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:40;
+  background: var(--white); border:1.5px solid var(--ivory-3); border-radius: var(--radius-md);
+  max-height:230px; overflow-y:auto; box-shadow: var(--shadow-lg);
+}
+.nearby-dropdown-item {
+  display:flex; align-items:center; gap:10px; padding:11px 14px; cursor:pointer;
+  font-size:13.5px; color:var(--slate); border-bottom:1px solid var(--ivory-2); transition:background 0.12s;
+}
+.nearby-dropdown-item:last-child { border-bottom:none; }
+.nearby-dropdown-item:hover { background: var(--ivory-2); }
+.nearby-dropdown-item.selected { background: rgba(28,56,41,0.06); color:var(--forest); }
+.nearby-dropdown-item .ndi-cat { font-size:11px; color:var(--slate-lt); font-weight:500; margin-top:1px; }
+.nearby-dropdown-item svg { flex-shrink:0; color:var(--forest); }
+.nearby-dropdown-empty { padding:16px; font-size:12.5px; color:var(--slate-lt); text-align:center; }
+.nearby-empty-note { font-size:12.5px; color:var(--slate-lt); padding:2px 2px; }
+
+.form-footnote { font-size:11.5px; color:var(--slate-lt); text-align:center; margin-top:16px; line-height:1.6; }
+.err-text { font-size:12px; color: var(--danger); font-weight:600; display:none; margin-top:-2px; }
+.err-text.show { display:block; }
+
+/* Success state */
+.success-card { text-align:center; padding: 20px 8px 8px; }
+.success-icon {
+  width:64px; height:64px; border-radius:50%; margin:0 auto 20px;
+  background: rgba(28,56,41,0.08); color:var(--forest);
+  display:flex; align-items:center; justify-content:center;
+}
+.success-card h2 { font-family:var(--font-display); font-size:28px; color:var(--forest); font-weight:600; }
+.success-card p { margin-top:10px; font-size:14.5px; color:var(--slate-mid); max-width:420px; margin-left:auto; margin-right:auto; line-height:1.7; }
+.success-actions { margin-top:26px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+/* ── FOOTER ── */
+footer { background: var(--forest); border-top: 1px solid rgba(255,255,255,0.06); }
+.footer-main {
+  max-width:var(--page-max); margin:0 auto;
+  padding: clamp(40px, 6vh, 60px) clamp(20px, 5vw, 60px) clamp(28px, 4vh, 40px);
+  display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px;
+}
+.footer-brand p { font-size:14px; color:rgba(255,255,255,0.5); line-height:1.7; margin-top:12px; max-width:280px; }
+.footer-col h4 { font-size:11.5px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:16px; }
+.footer-col a { display:block; font-size:14px; color:rgba(255,255,255,0.65); text-decoration:none; margin-bottom:10px; transition:color 0.2s; }
+.footer-col a:hover { color:var(--white); }
+.footer-bottom {
+  border-top:1px solid rgba(255,255,255,0.06); padding:20px clamp(20px, 5vw, 60px);
+  max-width:var(--page-max); margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;
+}
+.footer-bottom p { font-size:12.5px; color:rgba(255,255,255,0.35); }
+.footer-bottom a { color:rgba(255,255,255,0.5); text-decoration:none; }
+.footer-bottom a:hover { color:rgba(255,255,255,0.8); }
+.footer-logo-txt { font-family:var(--font-display); font-size:22px; font-weight:700; color:var(--white); }
+
+/* ── TOAST ── */
+#toast-wrap { position:fixed; bottom:24px; right:24px; z-index:9000; display:flex; flex-direction:column; gap:8px; }
+.toast { background:var(--forest); color:var(--white); padding:12px 20px; border-radius: var(--radius-sm); font-size:13.5px; font-weight:500; box-shadow:var(--shadow-lg); animation:slideIn 0.3s ease; }
+.toast.error { background: var(--danger); }
+@keyframes slideIn { from{transform:translateX(100%);opacity:0} to{transform:none;opacity:1} }
+
+/* ── RESPONSIVE ── */
+@media(max-width: 900px) {
+  .steps-row { grid-template-columns:1fr; }
+  .footer-main { grid-template-columns:1fr 1fr; }
+}
+@media(max-width: 640px) {
+  .nav-links, .nav-cta { display:none; }
+  .nav-hamburger { display:flex; }
+  .form-row { grid-template-columns:1fr; }
+  .footer-main { grid-template-columns:1fr; gap:32px; }
+  .footer-bottom { flex-direction:column; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="main-nav">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round">
+        <path d="M3 17l5-8 4 5 3-4 6 7"/>
+        <circle cx="19" cy="6" r="2" fill="rgba(255,255,255,0.3)" stroke="white"/>
+      </svg>
+    </div>
+    <span class="nav-brand">Poonch Tourism</span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="index.html" class="nav-link">Explore</a></li>
+    <li><a href="about.html" class="nav-link">About</a></li>
+    <li><a href="submit-place.html" class="nav-link">Add a Place</a></li>
+    <li><a href="list-your-stay.html" class="nav-link active">List Your Stay</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="index.html" class="btn btn-outline">Back to Site</a>
+  </div>
+  <button class="nav-hamburger" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Explore Places</a>
+  <a href="about.html">About</a>
+  <a href="submit-place.html">Add a Place ↗</a>
+  <a href="list-your-stay.html">List Your Stay</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero-strip">
+  <div class="hero-strip-inner">
+    <div class="section-eyebrow" style="justify-content:center">For Property Owners</div>
+    <h1>List your <em>stay</em> on Poonch Tourism</h1>
+    <p>Run a homestay, guest house or hotel in Poonch? Add your property below — our team reviews every listing before it goes live to travelers.</p>
+  </div>
+</section>
+
+<div class="steps-row">
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <div><h3>Fill in the details</h3><p>Name, price, photos, amenities and nearby attractions.</p></div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <div><h3>We review it</h3><p>Our team checks the listing for accuracy, usually within a couple of days.</p></div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <div><h3>It goes live</h3><p>Once approved, your stay appears on Poonch Tourism for everyone to see.</p></div>
+  </div>
+</div>
+
+<!-- ── FORM ── -->
+<section class="form-section">
+  <div class="form-card" id="form-card">
+    <div id="form-view">
+      <div class="form-card-head">
+        <h2>Property Details</h2>
+        <p>All fields below are required.</p>
+      </div>
+      <div class="form-grid">
+        <div class="form-row">
+          <div class="field">
+            <label>Stay Name <span class="req">*</span></label>
+            <input type="text" id="f-name" placeholder="e.g. Hill View Guest House">
+            <span class="err-text" id="err-name">Please enter your stay's name</span>
+          </div>
+          <div class="field">
+            <label>Category <span class="req">*</span></label>
+            <select id="f-category" required>
+              <option value="" disabled selected>Select a category</option>
+              <option value="Hotel">Hotel</option>
+              <option value="Homestay">Homestay</option>
+              <option value="Guest House">Guest House</option>
+            </select>
+            <span class="err-text" id="err-category">Please select a category</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Description <span class="req">*</span></label>
+          <textarea id="f-description" placeholder="Tell travelers about your property — rooms, views, what makes it special…"></textarea>
+          <span class="err-text" id="err-description">Please add a short description</span>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Price / Night (₹) <span class="req">*</span></label>
+            <input type="number" id="f-price" placeholder="1200" min="0" step="1">
+            <span class="err-text" id="err-price">Please enter a price per night</span>
+          </div>
+          <div class="field">
+            <label>Contact Number <span class="req">*</span></label>
+            <input type="tel" id="f-contact" placeholder="e.g. +91 98765 43210">
+            <div class="field-hint">Shown to guests as the "Contact" button.</div>
+            <span class="err-text" id="err-contact">Please enter a contact number</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Map Link <span class="req">*</span></label>
+          <input type="url" id="f-mapLink" placeholder="https://maps.google.com/?q=…">
+          <div class="field-hint">Open your property in Google Maps, tap Share, and paste the link here — used for the "Location" button.</div>
+          <span class="err-text" id="err-mapLink">Please add a map link</span>
+        </div>
+        <div class="field">
+          <label>Photos <span class="req">*</span></label>
+          <div class="upload-zone" id="upload-zone">
+            <input type="file" id="img-input" accept="image/*" multiple onchange="handleFiles(this.files)">
+            <div class="upload-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="upload-title">Drop photos here or <span style="color:var(--forest)">browse</span></div>
+            <div class="upload-sub">Up to <span>10 photos</span> · first photo becomes the cover</div>
+            <div class="upload-limit">Max 5 MB per photo · JPG, PNG, WebP</div>
+          </div>
+          <div class="uploading-banner" id="uploading-banner">
+            <div class="spinner"></div>
+            <span id="upload-status-text">Uploading photos…</span>
+            <div class="progress-bar-wrap"><div class="progress-bar" id="upload-progress-bar"></div></div>
+            <span class="progress-pct" id="upload-progress-pct">0%</span>
+          </div>
+          <div class="tag-input-wrap" id="imageUrls-wrap" style="cursor:default;"></div>
+          <div class="field-hint">Use the ▲▼ arrows on a photo to reorder — the first one is used as the cover.</div>
+          <div id="img-preview-row" class="img-preview-row" style="display:none;"></div>
+          <span class="err-text" id="err-photos">Please add at least one photo</span>
+        </div>
+        <div class="field">
+          <label>Amenities <span class="req">*</span></label>
+          <div class="quick-chips" id="amenity-quick-chips"></div>
+          <div class="tag-input-wrap" id="amenities-wrap" onclick="document.getElementById('amenities-input').focus()">
+            <input class="tag-input" id="amenities-input" placeholder="Type an amenity and press Enter…" onkeydown="handleTagInput(event,'amenities')">
+          </div>
+          <div class="field-hint">Tap a suggestion above or type your own, e.g. Free Wifi, Parking, Geyser.</div>
+          <span class="err-text" id="err-amenities">Please add at least one amenity</span>
+        </div>
+        <div class="field">
+          <label>Nearby Places <span class="req">*</span></label>
+          <div class="tag-input-wrap" id="nearby-chips-wrap" style="cursor:default;"></div>
+          <div class="nearby-search-wrap" style="margin-top:8px;">
+            <input type="text" id="nearby-search" placeholder="Search Poonch Tourism places near your stay…"
+              oninput="renderNearbyDropdown()" onfocus="renderNearbyDropdown()" autocomplete="off">
+            <div class="nearby-dropdown" id="nearby-dropdown" style="display:none;"></div>
+          </div>
+          <div class="field-hint">Helps travelers discover attractions close to your property.</div>
+          <span class="err-text" id="err-nearby">Please select at least one nearby place</span>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-lg" id="submit-btn" style="margin-top:30px" onclick="submitStay()">
+        Submit for Review
+      </button>
+      <p class="form-footnote">Your listing won't appear publicly until it's been reviewed and approved by our team.</p>
+    </div>
+
+    <div id="success-view" class="success-card" style="display:none;">
+      <div class="success-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2>Thanks — it's on its way!</h2>
+      <p>We've received your stay listing and it's now in our review queue. Once approved, it'll appear on Poonch Tourism for travelers to find.</p>
+      <div class="success-actions">
+        <button class="btn btn-outline" onclick="resetForm()">Submit Another Stay</button>
+        <a href="index.html" class="btn btn-primary">Back to Poonch Tourism</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-logo-txt">Poonch Tourism</div>
+      <p>A digital platform dedicated to showcasing the natural beauty, cultural richness, and historical significance of Poonch district.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="index.html">All Places</a>
+      <a href="about.html">About</a>
+      <a href="submit-place.html">Add a Place ↗</a>
+    </div>
+    <div class="footer-col">
+      <h4>For Owners</h4>
+      <a href="list-your-stay.html">List Your Stay</a>
+      <a href="https://instagram.com/poonchtourism" target="_blank" rel="noopener">Collaborate ↗</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Poonch Tourism · Developed by <a href="about.html">Programiner</a></p>
+    <p>All content belongs to respective owners · Educational &amp; informational purposes only</p>
+  </div>
+</footer>
+
+<!-- Toast container -->
+<div id="toast-wrap"></div>
+
+<script>
+// ── STATE ──
+let db, fns;
+let allPlaces = [];
+let tagData = { imageUrls: [], amenities: [] };
+let selectedNearby = [];
+
+const QUICK_AMENITIES = ['Free Wifi','Parking','Geyser','Hot Water','Room Service','TV','AC','Restaurant','Power Backup','Bonfire'];
+
+// ── NAV ──
+function toggleMobile() { document.getElementById('mobile-menu').classList.toggle('open'); }
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 8);
+});
+
+// ── FIREBASE ──
+window.addEventListener('firebase-ready', async () => {
+  db = window._db;
+  fns = window._fns;
+  try {
+    const snap = await fns.getDocs(fns.query(fns.collection(db,'places'), fns.orderBy('name')));
+    allPlaces = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+  } catch(e) {
+    console.error('Failed to load places for nearby picker:', e);
+  }
+});
+
+// ── AMENITY QUICK CHIPS ──
+function renderQuickChips() {
+  const wrap = document.getElementById('amenity-quick-chips');
+  wrap.innerHTML = QUICK_AMENITIES.map(a => {
+    const added = tagData.amenities.includes(a);
+    return `<span class="quick-chip ${added?'added':''}" onclick="toggleQuickAmenity('${a.replace(/'/g,"\\'")}')">${added?'✓ ':''}${a}</span>`;
+  }).join('');
+}
+function toggleQuickAmenity(name) {
+  const idx = tagData.amenities.indexOf(name);
+  if (idx > -1) tagData.amenities.splice(idx,1);
+  else tagData.amenities.push(name);
+  renderTags('amenities');
+  renderQuickChips();
+}
+renderQuickChips();
+
+// ── TAG INPUTS (image URLs / amenities) ──
+function handleTagInput(e, key) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const inp = e.target;
+    const val = inp.value.trim().replace(/,$/, '');
+    if (val) { addTag(key, val); inp.value = ''; }
+  }
+  if (e.key === 'Backspace' && !e.target.value && tagData[key].length) {
+    removeTag(key, tagData[key].length - 1);
+  }
+}
+function addTag(key, val) {
+  if (tagData[key].includes(val)) return;
+  tagData[key].push(val);
+  renderTags(key);
+  if (key === 'imageUrls') { document.getElementById('img-preview-row').style.display='none'; refreshImgPreviewRow(); }
+  if (key === 'amenities') renderQuickChips();
+}
+function removeTag(key, idx) {
+  tagData[key].splice(idx,1);
+  renderTags(key);
+  if (key === 'imageUrls') refreshImgPreviewRow();
+  if (key === 'amenities') renderQuickChips();
+}
+function renderTags(key) {
+  const wrap = document.getElementById(key+'-wrap');
+  const inp = document.getElementById(key+'-input');
+  wrap.querySelectorAll('.tag').forEach(t=>t.remove());
+  const isImg = key === 'imageUrls';
+  tagData[key].forEach((v,i) => {
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    const len = tagData[key].length;
+    if (isImg) {
+      const thumbBadge = i===0 ? `<span class="tag-thumb-badge">COVER</span>` : '';
+      const up = i>0 ? `<span class="tag-move" onclick="moveImgTag(${i},-1)">▲</span>` : '';
+      const down = i<len-1 ? `<span class="tag-move" onclick="moveImgTag(${i},1)">▼</span>` : '';
+      tag.innerHTML = `${thumbBadge}Photo ${i+1}${up}${down}<span class="tag-remove" onclick="removeTag('${key}',${i})">×</span>`;
+    } else {
+      tag.innerHTML = `${escapeHtml(v)}<span class="tag-remove" onclick="removeTag('${key}',${i})">×</span>`;
+    }
+    wrap.insertBefore(tag, inp);
+  });
+}
+function moveImgTag(idx, dir) {
+  const arr = tagData.imageUrls;
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= arr.length) return;
+  [arr[idx], arr[newIdx]] = [arr[newIdx], arr[idx]];
+  renderTags('imageUrls');
+  refreshImgPreviewRow();
+}
+// ── PHOTO UPLOAD (Cloudinary) ──
+const CLOUDINARY_CLOUD_NAME = 'dwtewffsh';
+const CLOUDINARY_UPLOAD_PRESET = 'poonch_unsigned';
+const CLOUDINARY_ASSET_FOLDER = 'poonch-tourism/stays';
+const MAX_PHOTOS = 10;
+const MAX_FILE_SIZE_MB = 5;
+
+const isCloudinaryConfigured = () => Boolean(
+  CLOUDINARY_CLOUD_NAME && CLOUDINARY_UPLOAD_PRESET &&
+  CLOUDINARY_CLOUD_NAME !== 'YOUR_CLOUD_NAME' && CLOUDINARY_UPLOAD_PRESET !== 'YOUR_UPLOAD_PRESET'
+);
+
+const uploadZone = document.getElementById('upload-zone');
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('drag-over');
+  handleFiles(e.dataTransfer.files);
+});
+
+function uploadToCloudinary(file, onProgress) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  formData.append('folder', CLOUDINARY_ASSET_FOLDER);
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = e => { if (e.lengthComputable && onProgress) onProgress(e.loaded, e.total); };
+    xhr.onload = () => {
+      if (xhr.status === 200) resolve(JSON.parse(xhr.responseText).secure_url);
+      else reject(new Error('Upload failed: ' + xhr.status));
+    };
+    xhr.onerror = () => reject(new Error('Network error during upload'));
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`);
+    xhr.send(formData);
+  });
+}
+
+async function handleFiles(fileList) {
+  const incoming = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+  if (!incoming.length) return;
+
+  const room = MAX_PHOTOS - tagData.imageUrls.length;
+  if (room <= 0) { toast(`Max ${MAX_PHOTOS} photos allowed`, 'error'); document.getElementById('img-input').value=''; return; }
+
+  const oversized = incoming.filter(f => f.size > MAX_FILE_SIZE_MB * 1024 * 1024);
+  const valid = incoming.filter(f => f.size <= MAX_FILE_SIZE_MB * 1024 * 1024).slice(0, room);
+  if (oversized.length) toast(`${oversized.length} photo(s) exceed ${MAX_FILE_SIZE_MB}MB and were skipped`, 'error');
+  if (incoming.length - oversized.length > room) toast(`Only ${room} more photo(s) can be added (max ${MAX_PHOTOS})`, 'error');
+  if (!valid.length) { document.getElementById('img-input').value=''; return; }
+
+  if (!isCloudinaryConfigured()) {
+    toast('Photo upload is not configured — check Cloudinary settings', 'error');
+    document.getElementById('img-input').value='';
+    return;
+  }
+
+  const banner = document.getElementById('uploading-banner');
+  const bar = document.getElementById('upload-progress-bar');
+  const pct = document.getElementById('upload-progress-pct');
+  const statusText = document.getElementById('upload-status-text');
+  banner.classList.add('show');
+  statusText.textContent = `Uploading ${valid.length} photo${valid.length>1?'s':''}…`;
+
+  const loadedByIdx = new Array(valid.length).fill(0);
+  const totalByIdx = valid.map(f => f.size);
+  const updateProgress = () => {
+    const loaded = loadedByIdx.reduce((a,b)=>a+b,0);
+    const total = totalByIdx.reduce((a,b)=>a+b,0) || 1;
+    const p = Math.round((loaded/total)*100);
+    bar.style.width = p + '%';
+    pct.textContent = p + '%';
+  };
+
+  const results = await Promise.allSettled(valid.map((f, i) =>
+    uploadToCloudinary(f, (loaded, total) => { loadedByIdx[i] = loaded; updateProgress(); })
+  ));
+
+  results.forEach(r => { if (r.status === 'fulfilled') addTag('imageUrls', r.value); });
+  const failed = results.filter(r => r.status === 'rejected').length;
+  if (failed) toast(`${failed} photo(s) failed to upload`, 'error');
+  else toast(`${valid.length} photo${valid.length>1?'s':''} uploaded`, 'success');
+
+  banner.classList.remove('show');
+  document.getElementById('img-input').value = '';
+}
+
+function refreshImgPreviewRow() {
+  const row = document.getElementById('img-preview-row');
+  if (!tagData.imageUrls.length) { row.style.display='none'; return; }
+  row.style.display = 'flex';
+  row.innerHTML = tagData.imageUrls.map((u,i) => `<img class="img-preview-thumb" src="${u}" title="Photo ${i+1}" onclick="window.open('${u}','_blank')" onerror="this.style.display='none'">`).join('');
+}
+
+// ── NEARBY PLACES PICKER ──
+function renderNearbyChips() {
+  const wrap = document.getElementById('nearby-chips-wrap');
+  if (!selectedNearby.length) { wrap.innerHTML = `<span class="nearby-empty-note">No nearby places selected yet</span>`; return; }
+  wrap.innerHTML = selectedNearby.map(id => {
+    const p = allPlaces.find(x=>x.id===id);
+    const name = p ? p.name : '(place)';
+    return `<span class="tag">${escapeHtml(name)}<span class="tag-remove" onclick="toggleNearby('${id}')">×</span></span>`;
+  }).join('');
+}
+function renderNearbyDropdown() {
+  const q = (document.getElementById('nearby-search').value||'').toLowerCase().trim();
+  const dd = document.getElementById('nearby-dropdown');
+  const list = allPlaces.filter(p => !q || (p.name||'').toLowerCase().includes(q));
+  if (!allPlaces.length) {
+    dd.innerHTML = `<div class="nearby-dropdown-empty">Loading places…</div>`;
+  } else if (!list.length) {
+    dd.innerHTML = `<div class="nearby-dropdown-empty">No places match your search</div>`;
+  } else {
+    dd.innerHTML = list.map(p => {
+      const sel = selectedNearby.includes(p.id);
+      const cat = p.category || (p.categories && p.categories[0]) || '';
+      return `<div class="nearby-dropdown-item ${sel?'selected':''}" onclick="toggleNearby('${p.id}')">
+        <div style="flex:1;min-width:0;">
+          <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(p.name||'Untitled')}</div>
+          ${cat?`<div class="ndi-cat">${escapeHtml(cat)}</div>`:''}
+        </div>
+        ${sel?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>':''}
+      </div>`;
+    }).join('');
+  }
+  dd.style.display = 'block';
+}
+function toggleNearby(id) {
+  const idx = selectedNearby.indexOf(id);
+  if (idx > -1) selectedNearby.splice(idx,1);
+  else selectedNearby.push(id);
+  renderNearbyChips();
+  renderNearbyDropdown();
+}
+document.addEventListener('click', (e) => {
+  const dd = document.getElementById('nearby-dropdown');
+  const search = document.getElementById('nearby-search');
+  if (!dd || dd.style.display === 'none') return;
+  if (e.target === search || dd.contains(e.target)) return;
+  dd.style.display = 'none';
+});
+renderNearbyChips();
+
+// ── SUBMIT ──
+async function submitStay() {
+  const name = document.getElementById('f-name').value.trim();
+  const category = document.getElementById('f-category').value;
+  const description = document.getElementById('f-description').value.trim();
+  const contact = document.getElementById('f-contact').value.trim();
+  const price = document.getElementById('f-price').value;
+  const mapLink = document.getElementById('f-mapLink').value.trim();
+
+  ['name','category','description','price','contact','mapLink','photos','amenities','nearby'].forEach(id => {
+    const el = document.getElementById('err-' + id);
+    if (el) el.classList.remove('show');
+  });
+
+  let hasError = false;
+  if (!name) { document.getElementById('err-name').classList.add('show'); hasError = true; }
+  if (!category) { document.getElementById('err-category').classList.add('show'); hasError = true; }
+  if (!description) { document.getElementById('err-description').classList.add('show'); hasError = true; }
+  if (!price) { document.getElementById('err-price').classList.add('show'); hasError = true; }
+  if (!contact) { document.getElementById('err-contact').classList.add('show'); hasError = true; }
+  if (!mapLink) { document.getElementById('err-mapLink').classList.add('show'); hasError = true; }
+  if (!tagData.imageUrls.length) { document.getElementById('err-photos').classList.add('show'); hasError = true; }
+  if (!tagData.amenities.length) { document.getElementById('err-amenities').classList.add('show'); hasError = true; }
+  if (!selectedNearby.length) { document.getElementById('err-nearby').classList.add('show'); hasError = true; }
+  if (hasError) { toast('Please fill in all the required fields', 'error'); return; }
+
+  if (!db) { toast('Still connecting — please try again in a moment', 'error'); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  const data = {
+    name,
+    category,
+    description,
+    pricePerNight: parseFloat(price) || 0,
+    mapLink,
+    contactNumber: contact,
+    imageUrls: [...tagData.imageUrls],
+    amenities: [...tagData.amenities],
+    nearbyPlaces: [...selectedNearby],
+    status: 'pending',
+    submittedAt: fns.serverTimestamp()
+  };
+
+  try {
+    await fns.addDoc(fns.collection(db, 'reviewstay'), data);
+    document.getElementById('form-view').style.display = 'none';
+    document.getElementById('success-view').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('form-card').offsetTop - 100, behavior:'smooth' });
+  } catch(e) {
+    console.error('submitStay error:', e);
+    toast('Something went wrong — please try again', 'error');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Submit for Review';
+}
+
+function resetForm() {
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-category').value = '';
+  document.getElementById('f-description').value = '';
+  document.getElementById('f-price').value = '';
+  document.getElementById('f-mapLink').value = '';
+  document.getElementById('f-contact').value = '';
+  tagData = { imageUrls: [], amenities: [] };
+  renderTags('imageUrls'); renderTags('amenities');
+  refreshImgPreviewRow(); renderQuickChips();
+  selectedNearby = [];
+  renderNearbyChips();
+  document.getElementById('nearby-search').value = '';
+  document.getElementById('success-view').style.display = 'none';
+  document.getElementById('form-view').style.display = 'block';
+  window.scrollTo({ top: document.getElementById('form-card').offsetTop - 100, behavior:'smooth' });
+}
+
+// ── UTIL ──
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function toast(msg, type='success') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  document.getElementById('toast-wrap').appendChild(el);
+  setTimeout(() => { el.style.opacity='0'; el.style.transition='opacity 0.3s'; setTimeout(()=>el.remove(),300); }, 3800);
+}
+</script>
+</body>
+</html>
