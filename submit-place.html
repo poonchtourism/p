@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -246,6 +245,7 @@ nav.scrolled { box-shadow: var(--shadow-md); }
   letter-spacing: 0.02em; display: flex; align-items: center; gap: 5px;
 }
 .req { color: var(--gold); font-weight: 700; }
+.opt { color: var(--slate-lt); font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 11.5px; }
 .field-hint { font-size: 11.5px; color: var(--slate-lt); margin-top: 2px; }
 
 .field input, .field textarea, .field select {
@@ -351,6 +351,23 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 }
 .contact-banner svg { flex-shrink: 0; color: var(--slate-lt); margin-top: 2px; }
 .contact-banner p { font-size: 13px; color: var(--slate-mid); line-height: 1.6; }
+
+/* ── OPTIONAL SECTION DIVIDER ── */
+.optional-divider {
+  display: flex; align-items: center; gap: 14px;
+  margin: 6px 0 4px;
+}
+.optional-divider::before, .optional-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--ivory-3);
+}
+.optional-divider span {
+  font-size: 12px; font-weight: 700; color: var(--slate-lt);
+  letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+}
+.optional-note {
+  font-size: 13px; color: var(--slate-mid); line-height: 1.6;
+  margin-top: -8px; margin-bottom: 4px;
+}
 
 /* ── SUBMIT ROW ── */
 .submit-row {
@@ -529,6 +546,8 @@ nav { animation: fadeIn 0.5s ease both; }
 .form-grid > *:nth-child(5) { animation-delay: .24s; }
 .form-grid > *:nth-child(6) { animation-delay: .29s; }
 .form-grid > *:nth-child(7) { animation-delay: .34s; }
+.form-grid > *:nth-child(8) { animation-delay: .38s; }
+.form-grid > *:nth-child(9) { animation-delay: .42s; }
 
 /* ── RESPONSIVE ── */
 @media(max-width: 640px) {
@@ -586,7 +605,7 @@ nav { animation: fadeIn 0.5s ease both; }
   <div class="section-inner">
     <div class="section-eyebrow" data-anim="fade-up">Submit a Place</div>
     <h2 class="section-title" data-anim="fade-up" style="--d:.08s">Tell us about the <em>place</em></h2>
-    <p class="section-desc" data-anim="fade-up" style="--d:.16s">Fill in as much as you know. Every submission is reviewed by our team before going live — so even rough details help.</p>
+    <p class="section-desc" data-anim="fade-up" style="--d:.16s">Just a name, category, and a few photos gets you started — everything else is optional and helps us verify and showcase it better.</p>
 
     <div class="form-card" id="form-card" data-anim="scale-in" style="--d:.1s">
       <div class="form-card-header">
@@ -614,7 +633,7 @@ nav { animation: fadeIn 0.5s ease both; }
 
         <div class="form-grid">
 
-          <!-- Name + Category -->
+          <!-- Name + Category (REQUIRED) -->
           <div class="form-row">
             <div class="field">
               <label>Place Name <span class="req">*</span></label>
@@ -633,17 +652,7 @@ nav { animation: fadeIn 0.5s ease both; }
             </div>
           </div>
 
-          <!-- Description -->
-          <div class="field">
-            <label>Description <span class="req">*</span></label>
-            <textarea id="s-description" placeholder="Describe what makes this place special — its scenery, history, how to reach it…" maxlength="1000" oninput="charCount(this,'desc-count',1000)"></textarea>
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <span class="field-error" id="err-description"></span>
-              <span class="char-count" id="desc-count">0 / 1000</span>
-            </div>
-          </div>
-
-          <!-- Images -->
+          <!-- Images (REQUIRED) -->
           <div class="field">
             <label>Photos <span class="req">*</span></label>
             <div class="upload-zone" id="upload-zone">
@@ -663,15 +672,29 @@ nav { animation: fadeIn 0.5s ease both; }
             <span class="field-error" id="err-images"></span>
           </div>
 
+          <!-- ── Divider: everything below is optional ── -->
+          <div class="optional-divider" data-anim="fade-in"><span>Optional details</span></div>
+          <p class="optional-note">The fields below aren't required, but the more you share, the faster we can verify and feature the place.</p>
+
+          <!-- Description -->
+          <div class="field">
+            <label>Description <span class="opt">(optional)</span></label>
+            <textarea id="s-description" placeholder="Describe what makes this place special — its scenery, history, how to reach it…" maxlength="3000" oninput="charCount(this,'desc-count',3000)"></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span class="field-error" id="err-description"></span>
+              <span class="char-count" id="desc-count">0 / 3000</span>
+            </div>
+          </div>
+
           <!-- District + Distance -->
           <div class="form-row">
             <div class="field">
-              <label>Sub-area / Tehsil <span class="req">*</span></label>
+              <label>Sub-area / Tehsil <span class="opt">(optional)</span></label>
               <input type="text" id="s-subarea" placeholder="e.g. Surankote, Mandi, Haveli">
               <span class="field-error" id="err-subarea"></span>
             </div>
             <div class="field">
-              <label>Approx. Distance from Poonch City (km) <span class="req">*</span></label>
+              <label>Approx. Distance from Poonch City (km) <span class="opt">(optional)</span></label>
               <input type="number" id="s-distanceKm" placeholder="e.g. 25" min="0" max="999" step="0.5">
               <span class="field-error" id="err-distanceKm"></span>
             </div>
@@ -679,7 +702,7 @@ nav { animation: fadeIn 0.5s ease both; }
 
           <!-- Best Months -->
           <div class="field">
-            <label>Best Months to Visit <span class="req">*</span></label>
+            <label>Best Months to Visit <span class="opt">(optional)</span></label>
             <div class="month-chips" id="month-chips">
               <div class="month-chip" onclick="toggleMonth('January')">Jan</div>
               <div class="month-chip" onclick="toggleMonth('February')">Feb</div>
@@ -700,7 +723,7 @@ nav { animation: fadeIn 0.5s ease both; }
 
           <!-- Tips -->
           <div class="field">
-            <label>Visitor Tips <span class="req">*</span></label>
+            <label>Visitor Tips <span class="opt">(optional)</span></label>
             <div style="display:flex;gap:8px;align-items:flex-start">
               <textarea id="tips-text-input" placeholder="e.g. Carry warm clothes" style="flex:1;min-height:56px;resize:vertical;background:var(--ivory-2);border:1.5px solid var(--ivory-3);border-radius:var(--radius-sm);color:var(--slate);font-family:var(--font-body);font-size:14.5px;padding:11px 14px;outline:none;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;line-height:1.6;" onfocus="this.style.borderColor='var(--forest-lt)';this.style.background='#fff';this.style.boxShadow='0 0 0 4px rgba(61,112,87,0.1)'" onblur="this.style.borderColor='';this.style.background='';this.style.boxShadow=''" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();addTipFromTextarea();}"></textarea>
               <button type="button" onclick="addTipFromTextarea()" class="btn btn-primary" style="flex-shrink:0;">+ Add Tip</button>
@@ -712,7 +735,7 @@ nav { animation: fadeIn 0.5s ease both; }
 
           <!-- Contact -->
           <div class="field">
-            <label>Your Name &amp; Contact <span class="req">*</span></label>
+            <label>Your Name &amp; Contact <span class="opt">(optional)</span></label>
             <div class="contact-banner">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
               <p>If you'd like credit when your place is published — or if we need to reach you for more details — leave your name and a contact (phone or email).</p>
@@ -990,6 +1013,8 @@ function clearValidationErrors() {
 }
 
 // ── Validate ──
+// Only Name, Category, and a minimum of 3 media files (with 3 images) are required.
+// Description, sub-area, distance, best months, tips, and contact are optional.
 function validate() {
   clearValidationErrors();
   let ok = true;
@@ -1006,19 +1031,6 @@ function validate() {
 
   markRequired('s-name', 'err-name');
   markRequired('s-category', 'err-category');
-  markRequired('s-description', 'err-description');
-  markRequired('s-subarea', 'err-subarea');
-  markRequired('s-distanceKm', 'err-distanceKm');
-  markRequired('s-contact', 'err-contact');
-
-  if(selectedMonths.length === 0) {
-    setFieldError('err-months', 'Select at least one month');
-    ok = false;
-  }
-  if(tagData.tips.length === 0) {
-    setFieldError('err-tips', 'Add at least one visitor tip');
-    ok = false;
-  }
 
   const imageFiles = localFiles.filter(f => f.type.startsWith('image/'));
   const mediaCount = localFiles.length;
@@ -1035,6 +1047,7 @@ function validate() {
     ok = false;
   }
 
+  // Optional numeric field — only validated if the user filled it in
   const distanceEl = document.getElementById('s-distanceKm');
   const distanceVal = Number(distanceEl.value);
   if(distanceEl.value.trim() && (Number.isNaN(distanceVal) || distanceVal < 0)) {
@@ -1088,13 +1101,13 @@ async function submitPlace() {
     }
 
     // 2. Sanitize & build submission object
-    const sanitize = s => String(s||'').trim().replace(/<[^>]*>/g, '').substring(0, 2000);
+    const sanitize = s => String(s||'').trim().replace(/<[^>]*>/g, '').substring(0, 3000);
 
     const submission = {
       // ── core place data ──
       name:        sanitize(document.getElementById('s-name').value).substring(0,80),
       category:    sanitize(document.getElementById('s-category').value).substring(0,60),
-      description: sanitize(document.getElementById('s-description').value).substring(0,1000),
+      description: sanitize(document.getElementById('s-description').value).substring(0,3000),
       subArea:     sanitize(document.getElementById('s-subarea').value).substring(0,80),
       distanceKm:  parseFloat(document.getElementById('s-distanceKm').value) || null,
       bestMonths:  [...selectedMonths],
@@ -1145,7 +1158,7 @@ function resetForm() {
   tagData.tips = []; renderTags('tips');
   selectedMonths = []; renderMonthChips();
   document.getElementById('name-count').textContent = '0 / 80';
-  document.getElementById('desc-count').textContent = '0 / 1000';
+  document.getElementById('desc-count').textContent = '0 / 3000';
   clearValidationErrors();
 }
 
