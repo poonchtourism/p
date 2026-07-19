@@ -45,9 +45,6 @@ const firebaseConfig = {
 </script>
 
 <style>
-/* ══════════════════════════════════════
-   DESIGN TOKENS — matched 1:1 to Poonch Tourism homepage
-════════════════════════════════════════ */
 :root {
   --ivory:      #FAF8F4;
   --ivory-2:    #F2EFE9;
@@ -88,7 +85,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── NAV (matches homepage) ── */
 nav {
   position: fixed; top:0; left:0; right:0;
   height: var(--nav-h);
@@ -116,7 +112,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .nav-links a:hover { color: var(--forest); background: var(--ivory-2); }
 .nav-links a.active { color: var(--forest); font-weight: 600; }
 
-/* ── BUTTONS (matches homepage) ── */
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 9px 20px; font-family: var(--font-body); font-size: 13.5px; font-weight: 600;
@@ -130,7 +125,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .btn-outline:hover { border-color: var(--forest); background: var(--ivory-2); }
 .btn-lg { padding: 13px 28px; font-size: 15px; }
 
-/* ── HERO ── */
 #hero {
   padding-top: var(--nav-h);
   min-height: 62vh;
@@ -174,7 +168,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
   line-height: 1.75; max-width: 460px; margin: 0 auto 32px;
 }
 
-/* ── SECTION COMMONS ── */
 .section { padding: clamp(56px, 8vh, 88px) clamp(20px, 5vw, 60px); }
 .section-inner { max-width: var(--page-max); margin: 0 auto; }
 .section-eyebrow {
@@ -191,7 +184,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .section-title em { font-style:italic; color: var(--gold); }
 .section-desc { font-size: 15.5px; color: var(--slate-mid); max-width: 560px; line-height: 1.7; margin-bottom: 40px; }
 
-/* ── FORM CARD ── */
 .form-card {
   background: var(--white);
   border: 1px solid var(--ivory-3);
@@ -222,7 +214,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .form-card-sub { position: relative; z-index:1; font-size: 13px; color: rgba(255,255,255,0.68); margin-top: 3px; }
 .form-body { padding: 34px 32px; }
 
-/* Security notice */
 .security-notice {
   display: flex; align-items: flex-start; gap: 12px;
   background: var(--ivory-2);
@@ -236,7 +227,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .security-notice p { font-size: 13px; color: var(--slate-mid); line-height: 1.65; }
 .security-notice strong { display: block; font-weight: 600; color: var(--forest); margin-bottom: 2px; font-size: 13.5px; }
 
-/* ── FIELDS ── */
 .form-grid { display: grid; gap: 22px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .field { display: flex; flex-direction: column; gap: 7px; }
@@ -265,7 +255,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .field textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
 .field select { cursor: pointer; }
 
-/* ── IMAGE UPLOAD ── */
 .upload-zone {
   border: 2px dashed var(--ivory-3);
   border-radius: var(--radius-lg);
@@ -310,7 +299,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .progress-bar { height: 100%; background: var(--gold-lt); border-radius: 4px; transition: width 0.3s ease; }
 .progress-pct { font-size: 11px; color: #fff; font-weight: 700; }
 
-/* ── MONTH CHIPS ── */
 .month-chips { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; padding-top: 6px; }
 .month-chip {
   padding: 9px 4px; border-radius: var(--radius-sm);
@@ -324,7 +312,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
   box-shadow: 0 2px 8px rgba(28,56,41,0.25);
 }
 
-/* ── TIPS ── */
 .tag-wrap {
   background: transparent; border: none; padding: 0;
   display: flex; flex-wrap: wrap; gap: 8px;
@@ -340,7 +327,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .tag-remove { cursor: pointer; opacity: 0.6; font-size: 14px; line-height: 1; }
 .tag-remove:hover { opacity: 1; }
 
-/* ── CONTACT ── */
 .contact-banner {
   background: var(--ivory-2);
   border: 1px solid var(--ivory-3);
@@ -352,7 +338,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .contact-banner svg { flex-shrink: 0; color: var(--slate-lt); margin-top: 2px; }
 .contact-banner p { font-size: 13px; color: var(--slate-mid); line-height: 1.6; }
 
-/* ── OPTIONAL SECTION DIVIDER ── */
 .optional-divider {
   display: flex; align-items: center; gap: 14px;
   margin: 6px 0 4px;
@@ -369,7 +354,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
   margin-top: -8px; margin-bottom: 4px;
 }
 
-/* ── SUBMIT ROW ── */
 .submit-row {
   display: flex; align-items: center; justify-content: space-between;
   margin-top: 34px; padding-top: 28px; border-top: 1px solid var(--ivory-3);
@@ -378,7 +362,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .submit-note { font-size: 12.5px; color: var(--slate-mid); line-height: 1.6; max-width: 300px; }
 .submit-note strong { color: var(--forest); }
 
-/* ── SUCCESS STATE ── */
 .success-overlay {
   display: none; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; padding: 64px 28px;
@@ -395,7 +378,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .success-title { font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--forest); margin-bottom: 12px; }
 .success-sub { font-size: 15px; color: var(--slate-mid); line-height: 1.75; max-width: 400px; margin-bottom: 30px; }
 
-/* ── CHAR COUNT / ERRORS ── */
 .char-count { font-size: 11.5px; color: var(--slate-lt); text-align: right; }
 .char-count.over { color: var(--error); }
 .field input.error, .field textarea.error, .field select.error {
@@ -404,7 +386,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 }
 .field-error { font-size: 12px; color: var(--error); font-weight: 500; }
 
-/* ── UPLOADING BANNER ── */
 .uploading-banner {
   display: none; background: var(--ivory-2); border: 1px solid var(--ivory-3);
   border-left: 3px solid var(--forest-lt);
@@ -418,7 +399,6 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--ivory-3); border-top-color: var(--forest); border-radius: 50%; animation: spin 0.7s linear infinite; }
 .btn-submit .spinner { border-color: rgba(255,255,255,0.4); border-top-color: #fff; }
 
-/* ── FOOTER ── */
 footer { background: var(--forest); border-top: 1px solid rgba(255,255,255,0.06); }
 .footer-main {
   max-width: 1280px; margin: 0 auto;
@@ -428,7 +408,6 @@ footer { background: var(--forest); border-top: 1px solid rgba(255,255,255,0.06)
 .footer-logo-txt { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
 .footer-sub { font-size: 13px; color: rgba(255,255,255,0.5); }
 
-/* ── TOAST ── */
 #toast-wrap { position: fixed; bottom: 24px; right: 24px; z-index: 9000; display: flex; flex-direction: column; gap: 8px; }
 .toast {
   background: var(--forest); color: var(--white); font-size: 13.5px; font-weight: 500;
@@ -439,9 +418,6 @@ footer { background: var(--forest); border-top: 1px solid rgba(255,255,255,0.06)
 .toast.err { background: var(--error); }
 @keyframes toastIn { from{transform:translateX(20px);opacity:0;} to{transform:translateX(0);opacity:1;} }
 
-/* ══════════════════════════════════════
-   ANIMATION SYSTEM — matched to homepage's motion language
-════════════════════════════════════════ */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(26px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -477,7 +453,6 @@ footer { background: var(--forest); border-top: 1px solid rgba(255,255,255,0.06)
   100% { transform: translateX(0); }
 }
 
-/* Hero load-in — plays once on page load, staggered */
 .hero-badge, .hero-title, .hero-subtitle, #hero .btn {
   opacity: 0;
   animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1) both;
@@ -489,7 +464,6 @@ footer { background: var(--forest); border-top: 1px solid rgba(255,255,255,0.06)
 .hero-badge::before { animation: dotPulse 2.2s ease-in-out infinite; }
 #hero::before { animation: mistDrift 14s ease-in-out infinite; }
 
-/* Generic scroll-reveal: add data-anim="fade-up|fade-in|scale-in|slide-right" + optional style="--d:.15s" for stagger */
 [data-anim] { opacity: 0; }
 [data-anim].visible {
   animation-duration: 0.7s;
@@ -502,27 +476,21 @@ footer { background: var(--forest); border-top: 1px solid rgba(255,255,255,0.06)
 [data-anim="scale-in"].visible    { animation-name: scaleIn; }
 [data-anim="slide-right"].visible { animation-name: slideRight; }
 
-/* Tactile micro-interactions */
 .btn:active, .month-chip:active, .upload-zone:active {
   transform: scale(0.97);
 }
 .month-chip.selected.just-selected { animation: chipPop 0.32s ease; }
 
-/* New tag pop-in */
 .tag { animation: tagIn 0.28s cubic-bezier(.22,.68,0,1.1) both; }
 
-/* Image preview entrance */
 .img-preview-wrap { animation: scaleIn 0.35s cubic-bezier(.22,.68,0,1) both; }
 
-/* Success overlay staggered rise (icon already has popIn) */
 .success-overlay.show .success-title { animation: fadeUp 0.5s cubic-bezier(.22,.68,0,1) 0.1s both; }
 .success-overlay.show .success-sub   { animation: fadeUp 0.5s cubic-bezier(.22,.68,0,1) 0.18s both; }
 .success-overlay.show .btn-outline   { animation: fadeUp 0.5s cubic-bezier(.22,.68,0,1) 0.26s both; }
 
-/* Nav entrance */
 nav { animation: fadeIn 0.5s ease both; }
 
-/* Respect reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -534,7 +502,6 @@ nav { animation: fadeIn 0.5s ease both; }
   .hero-badge, .hero-title, .hero-subtitle, #hero .btn { opacity: 1 !important; }
 }
 
-/* Staggered field entrance within the form (CSS-only, no markup changes needed) */
 .form-grid > * {
   opacity: 0;
   animation: fadeUp 0.55s cubic-bezier(.22,.68,0,1) both;
@@ -549,7 +516,6 @@ nav { animation: fadeIn 0.5s ease both; }
 .form-grid > *:nth-child(8) { animation-delay: .38s; }
 .form-grid > *:nth-child(9) { animation-delay: .42s; }
 
-/* ── RESPONSIVE ── */
 @media(max-width: 640px) {
   .form-row { grid-template-columns: 1fr; }
   .month-chips { grid-template-columns: repeat(4, 1fr); }
@@ -565,7 +531,6 @@ nav { animation: fadeIn 0.5s ease both; }
 </head>
 <body>
 
-<!-- ── NAV ── -->
 <nav id="main-nav">
   <a class="nav-logo" href="home.html">
     <div class="nav-logo-mark">
@@ -580,6 +545,7 @@ nav { animation: fadeIn 0.5s ease both; }
     <li><a href="home.html">Explore</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="#" class="active">Add a Place</a></li>
+    <li><a href="list-your-stay.html">List Your Stay</a></li>
   </ul>
   <a href="https://play.google.com/store/apps/details?id=com.programiner.poonchtourism" target="_blank" rel="noopener" class="btn btn-primary">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -587,7 +553,6 @@ nav { animation: fadeIn 0.5s ease both; }
   </a>
 </nav>
 
-<!-- ── HERO ── -->
 <section id="hero">
   <div class="hero-inner">
     <div class="hero-badge">Poonch Tourism · Community</div>
@@ -600,7 +565,6 @@ nav { animation: fadeIn 0.5s ease both; }
   </div>
 </section>
 
-<!-- ── FORM ── -->
 <section class="section" id="submit">
   <div class="section-inner">
     <div class="section-eyebrow" data-anim="fade-up">Submit a Place</div>
@@ -618,10 +582,8 @@ nav { animation: fadeIn 0.5s ease both; }
         </div>
       </div>
 
-      <!-- Form body -->
       <div class="form-body" id="form-body">
 
-        <!-- Security notice -->
         <div class="security-notice">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <p>
@@ -633,7 +595,6 @@ nav { animation: fadeIn 0.5s ease both; }
 
         <div class="form-grid">
 
-          <!-- Name + Category (REQUIRED) -->
           <div class="form-row">
             <div class="field">
               <label>Place Name <span class="req">*</span></label>
@@ -652,7 +613,6 @@ nav { animation: fadeIn 0.5s ease both; }
             </div>
           </div>
 
-          <!-- Images (REQUIRED) -->
           <div class="field">
             <label>Photos <span class="req">*</span></label>
             <div class="upload-zone" id="upload-zone">
@@ -672,11 +632,9 @@ nav { animation: fadeIn 0.5s ease both; }
             <span class="field-error" id="err-images"></span>
           </div>
 
-          <!-- ── Divider: everything below is optional ── -->
           <div class="optional-divider" data-anim="fade-in"><span>Optional details</span></div>
           <p class="optional-note">The fields below aren't required, but the more you share, the faster we can verify and feature the place.</p>
 
-          <!-- Description -->
           <div class="field">
             <label>Description <span class="opt">(optional)</span></label>
             <textarea id="s-description" placeholder="Describe what makes this place special — its scenery, history, how to reach it…" maxlength="3000" oninput="charCount(this,'desc-count',3000)"></textarea>
@@ -686,7 +644,6 @@ nav { animation: fadeIn 0.5s ease both; }
             </div>
           </div>
 
-          <!-- District + Distance -->
           <div class="form-row">
             <div class="field">
               <label>Sub-area / Tehsil <span class="opt">(optional)</span></label>
@@ -700,7 +657,6 @@ nav { animation: fadeIn 0.5s ease both; }
             </div>
           </div>
 
-          <!-- Best Months -->
           <div class="field">
             <label>Best Months to Visit <span class="opt">(optional)</span></label>
             <div class="month-chips" id="month-chips">
@@ -721,7 +677,6 @@ nav { animation: fadeIn 0.5s ease both; }
             <span class="field-error" id="err-months"></span>
           </div>
 
-          <!-- Tips -->
           <div class="field">
             <label>Visitor Tips <span class="opt">(optional)</span></label>
             <div style="display:flex;gap:8px;align-items:flex-start">
@@ -733,7 +688,6 @@ nav { animation: fadeIn 0.5s ease both; }
             <span class="field-error" id="err-tips"></span>
           </div>
 
-          <!-- Contact -->
           <div class="field">
             <label>Your Name &amp; Contact <span class="opt">(optional)</span></label>
             <div class="contact-banner">
@@ -744,7 +698,7 @@ nav { animation: fadeIn 0.5s ease both; }
             <span class="field-error" id="err-contact"></span>
           </div>
 
-        </div><!-- /form-grid -->
+        </div>
 
         <div class="submit-row">
           <p class="submit-note">
@@ -756,9 +710,8 @@ nav { animation: fadeIn 0.5s ease both; }
           </button>
         </div>
 
-      </div><!-- /form-body -->
+      </div>
 
-      <!-- Success state -->
       <div class="success-overlay" id="success-overlay">
         <div class="success-icon">🏔️</div>
         <div class="success-title">Thank you for sharing!</div>
@@ -772,7 +725,7 @@ nav { animation: fadeIn 0.5s ease both; }
         </button>
       </div>
 
-    </div><!-- /form-card -->
+    </div>
   </div>
 </section>
 
@@ -792,8 +745,8 @@ const CLOUDINARY_ASSET_FOLDER = 'poonch-tourism/submissions';
 
 let selectedMonths = [];
 let tagData = { tips: [] };
-let uploadedImageUrls = [];  // final Cloudinary URLs
-let localFiles = [];         // File objects for preview
+let uploadedImageUrls = [];
+let localFiles = [];
 let db, addDoc, getDocs, collection, serverTimestamp;
 
 const MAX_MEDIA = 10;
@@ -808,12 +761,10 @@ const isCloudinaryConfigured = () => {
   );
 };
 
-// ── Nav scroll shadow ──
 window.addEventListener('scroll', () => {
   document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
 });
 
-// ── Scroll-reveal for [data-anim] elements ──
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -824,7 +775,6 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('[data-anim]').forEach(el => revealObserver.observe(el));
 
-// ── Firebase ready ──
 window.addEventListener('firebase-ready', () => {
   db = window._db;
   addDoc = window._addDoc;
@@ -837,7 +787,6 @@ window.addEventListener('firebase-error', (e) => {
   toast('Firebase not connected: ' + e.detail, 'err');
 });
 
-// ── Load categories from Firestore ──
 async function loadCategories() {
   if (!db) return;
   try {
@@ -854,7 +803,6 @@ async function loadCategories() {
   }
 }
 
-// ── Char counter ──
 function charCount(el, counterId, max) {
   const len = el.value.length;
   const el2 = document.getElementById(counterId);
@@ -862,7 +810,6 @@ function charCount(el, counterId, max) {
   el2.classList.toggle('over', len >= max);
 }
 
-// ── Month chips ──
 function toggleMonth(m) {
   const i = selectedMonths.indexOf(m);
   const nowSelected = i === -1;
@@ -885,7 +832,6 @@ function renderMonthChips() {
   });
 }
 
-// ── Add tip from textarea (mobile-friendly) ──
 function addTipFromTextarea() {
   const input = document.getElementById('tips-text-input');
   const val = input.value.trim();
@@ -909,7 +855,6 @@ function renderTags(key) {
 function removeTag(key, i) { tagData[key].splice(i,1); renderTags(key); }
 function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// ── Image handling ──
 const uploadZone = document.getElementById('upload-zone');
 uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
 uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
@@ -956,14 +901,12 @@ function renderPreviews() {
   });
 }
 
-// ── Upload to Cloudinary ──
 async function uploadToCloudinary(file, index) {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
   formData.append('folder', CLOUDINARY_ASSET_FOLDER);
 
-  // Show progress overlay on that preview tile
   const tile = document.getElementById('prev-' + index);
   if(tile) {
     const overlay = document.createElement('div');
@@ -1012,9 +955,6 @@ function clearValidationErrors() {
   });
 }
 
-// ── Validate ──
-// Only Name, Category, and a minimum of 3 media files (with 3 images) are required.
-// Description, sub-area, distance, best months, tips, and contact are optional.
 function validate() {
   clearValidationErrors();
   let ok = true;
@@ -1047,7 +987,6 @@ function validate() {
     ok = false;
   }
 
-  // Optional numeric field — only validated if the user filled it in
   const distanceEl = document.getElementById('s-distanceKm');
   const distanceVal = Number(distanceEl.value);
   if(distanceEl.value.trim() && (Number.isNaN(distanceVal) || distanceVal < 0)) {
@@ -1059,7 +998,6 @@ function validate() {
   return ok;
 }
 
-// ── Submit ──
 async function submitPlace() {
   if(!db) { toast('Not connected to database', 'err'); return; }
   if(!validate()) { toast('Please fill required fields', 'err'); return; }
@@ -1069,7 +1007,6 @@ async function submitPlace() {
   btn.disabled = true; label.textContent = 'Submitting…';
 
   try {
-    // 1. Upload images to Cloudinary
     let uploadedMedia = [];
     if(localFiles.length) {
       document.getElementById('uploading-banner').classList.add('show');
@@ -1100,11 +1037,9 @@ async function submitPlace() {
       document.getElementById('uploading-banner').classList.remove('show');
     }
 
-    // 2. Sanitize & build submission object
     const sanitize = s => String(s||'').trim().replace(/<[^>]*>/g, '').substring(0, 3000);
 
     const submission = {
-      // ── core place data ──
       name:        sanitize(document.getElementById('s-name').value).substring(0,80),
       category:    sanitize(document.getElementById('s-category').value).substring(0,60),
       description: sanitize(document.getElementById('s-description').value).substring(0,3000),
@@ -1115,19 +1050,15 @@ async function submitPlace() {
       mediaUrls:   uploadedMedia.map(m => m.url),
       imageUrls:   uploadedMedia.filter(m => m.type === 'image').map(m => m.url),
       videoUrls:   uploadedMedia.filter(m => m.type === 'video').map(m => m.url),
-      // ── meta ──
       submittedBy: sanitize(document.getElementById('s-contact').value).substring(0,120),
-      status:      'pending',        // admin changes to 'approved' or 'rejected'
+      status:      'pending',
       submittedAt: serverTimestamp(),
-      // ── anti-spam fingerprint (no personal data) ──
       _userAgent:  navigator.userAgent.substring(0,150),
       _lang:       navigator.language,
     };
 
-    // 3. Write to 'submissions' collection (NOT 'places')
     await addDoc(collection(db, 'submissions'), submission);
 
-    // 4. Show success
     document.getElementById('form-body').style.display = 'none';
     document.getElementById('success-overlay').classList.add('show');
     toast('Submitted successfully!', 'ok');
@@ -1144,12 +1075,10 @@ async function submitPlace() {
   btn.disabled = false; label.textContent = 'Submit Place';
 }
 
-// ── Reset ──
 function resetForm() {
   document.getElementById('form-body').style.display = '';
   const tti = document.getElementById('tips-text-input'); if(tti) tti.value = '';
   document.getElementById('success-overlay').classList.remove('show');
-  // Clear all fields
   ['s-name','s-category','s-description','s-subarea','s-distanceKm','s-contact'].forEach(id => {
     document.getElementById(id).value = '';
   });
@@ -1162,7 +1091,6 @@ function resetForm() {
   clearValidationErrors();
 }
 
-// ── Toast ──
 function toast(msg, type='ok') {
   const el = document.createElement('div');
   el.className = 'toast ' + type;
