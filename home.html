@@ -506,6 +506,127 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .featured-scroll::-webkit-scrollbar-thumb { background: var(--ivory-3); border-radius: 10px; }
 .featured-scroll .place-card { scroll-snap-align: start; }
 
+/* ── STAYS SECTION ── */
+.stays-section { background: var(--ivory-2); }
+.stays-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.stay-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--ivory-3);
+  transition: transform 0.25s cubic-bezier(.25,.46,.45,.94), box-shadow 0.25s;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.stay-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.stay-card-img {
+  width:100%; height:200px;
+  object-fit: cover;
+  display:block; background: var(--ivory-3);
+  flex-shrink:0;
+  transition: transform 0.5s cubic-bezier(.22,.68,0,1);
+}
+.stay-card:hover .stay-card-img { transform: scale(1.05); }
+.stay-card-img-placeholder {
+  width:100%; height:200px;
+  background: linear-gradient(145deg, var(--ivory-2), var(--ivory-3));
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.stay-card-cat-badge {
+  position: absolute; top: 14px; left: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(28,56,41,0.72); backdrop-filter: blur(8px);
+  border-radius: 50px; padding: 5px 12px;
+  font-size: 11px; font-weight: 700; color: var(--white);
+  letter-spacing: 0.03em; text-transform: uppercase;
+}
+.stay-card-price-badge {
+  position: absolute; top: 14px; right: 14px; z-index: 2;
+  background: var(--gold); color: var(--white);
+  border-radius: 50px; padding: 6px 13px;
+  font-size: 12.5px; font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.stay-card-body { padding: 20px 22px 22px; flex:1; display:flex; flex-direction:column; }
+.stay-card-name {
+  font-family: var(--font-display);
+  font-size: 21px; font-weight: 600;
+  color: var(--forest); line-height: 1.2;
+  margin-bottom: 8px;
+}
+.stay-card-desc {
+  font-size: 13.5px; color: var(--slate-mid);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.stay-card-amenities {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 16px;
+}
+.stay-tag {
+  font-size: 11px; font-weight: 600;
+  color: var(--forest-mid);
+  background: var(--ivory-2);
+  border: 1px solid var(--ivory-3);
+  border-radius: 50px; padding: 3px 10px;
+}
+.stay-card-footer {
+  margin-top: auto; padding-top: 14px;
+  border-top: 1px solid var(--ivory-3);
+  display: flex; gap: 8px;
+}
+.stay-card-footer .btn { flex: 1; justify-content: center; }
+
+/* ── STAY HOST PROMO BANNER (ad-style CTA) ── */
+.stay-host-banner {
+  background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 60%, #1a6b4a 100%);
+  border-radius: var(--radius-xl);
+  padding: clamp(32px, 5vh, 48px) clamp(24px, 4vw, 48px);
+  margin-top: 40px;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+}
+.stay-host-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Ccircle cx='340' cy='60' r='140' fill='rgba(255,255,255,0.04)'/%3E%3Ccircle cx='40' cy='340' r='100' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E");
+  background-size: cover;
+  pointer-events: none;
+}
+.stay-host-banner-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 50px; padding: 5px 13px;
+  font-size: 11px; font-weight: 700; color: var(--gold-lt);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 14px; position: relative; z-index: 1;
+}
+.stay-host-banner-badge::before {
+  content: ''; width: 6px; height: 6px; background: var(--gold-lt); border-radius: 50%;
+}
+.stay-host-banner-text {
+  position: relative; z-index: 1; max-width: 560px;
+}
+.stay-host-banner-text h3 {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 32px); font-weight: 600;
+  color: var(--white); line-height: 1.2; margin-bottom: 10px;
+}
+.stay-host-banner-text p {
+  font-size: 14.5px; color: rgba(255,255,255,0.68); line-height: 1.65;
+}
+.stay-host-banner-action { position: relative; z-index: 1; flex-shrink: 0; }
+
 /* ── VIDEO HIGHLIGHTS ── */
 .video-highlights { background: var(--ivory-2); }
 .video-highlight-card {
@@ -1194,6 +1315,7 @@ footer {
     <li><a href="#" onclick="showPage('home')" class="nav-link active" data-page="home">Explore</a></li>
     <li><a href="about.html" class="nav-link">About</a></li>
     <li><a href="submit-place.html" rel="noopener" onclick="event.stopPropagation()">Add a Place</a></li>
+    <li><a href="list-your-stay.html" rel="noopener" onclick="event.stopPropagation()">List Your Stay</a></li>
   </ul>
   <div class="nav-cta">
     <button class="nav-search-btn" onclick="focusSearch()" aria-label="Search places">
@@ -1214,6 +1336,7 @@ footer {
   <a href="#" onclick="showPage('home');toggleMobile()">Explore Places</a>
   <a href="about.html">About</a>
   <a href="submit-place.html" rel="noopener">Add a Place ↗</a>
+  <a href="list-your-stay.html" rel="noopener">List Your Stay ↗</a>
   <div class="mobile-cta">
     <a href="https://play.google.com/store/apps/details?id=com.programiner.poonchtourism" target="_blank" rel="noopener" class="btn btn-primary" style="justify-content:center">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -1376,16 +1499,36 @@ footer {
     </div>
   </section>
 
-  <!-- Video Highlights -->
-  <section class="section video-highlights hidden" id="video-highlights-section">
+  <!-- Stays -->
+  <section class="section stays-section hidden" id="stays-section">
     <div class="section-inner">
-      <div class="section-header">
-        <div class="section-eyebrow">Poonch in Motion</div>
-        <h2 class="section-title">Watch Before You <em>Visit</em></h2>
-        <p class="section-desc">A closer look at Poonch's destinations, straight from the places themselves.</p>
+      <div class="section-header" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px">
+        <div>
+          <div class="section-eyebrow">Where to Stay</div>
+          <h2 class="section-title">Places to <em>Stay</em></h2>
+          <p class="section-desc">Hotels, homestays and guest houses hosted by the Poonch community.</p>
+        </div>
+        <a href="list-your-stay.html" rel="noopener" class="btn btn-outline">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          List Your Stay
+        </a>
       </div>
-      <div class="place-videos-grid" id="video-highlights-grid">
+      <div class="stays-grid" id="stays-grid">
         <!-- Populated dynamically -->
+      </div>
+
+      <div class="stay-host-banner">
+        <div class="stay-host-banner-text">
+          <div class="stay-host-banner-badge">Featured on the App</div>
+          <h3>Own a Hotel, Homestay or Guest House in Poonch?</h3>
+          <p>Get discovered by travelers exploring Poonch on our website and the Poonch Tourism app. Listing is free and only takes a couple of minutes.</p>
+        </div>
+        <div class="stay-host-banner-action">
+          <a href="list-your-stay.html" rel="noopener" class="btn btn-gold btn-lg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            List Your Stay
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -1519,6 +1662,7 @@ footer {
       <a href="#" onclick="showPage('home')">All Places</a>
       <a href="about.html">About</a>
       <a href="submit-place.html" rel="noopener">Add a Place ↗</a>
+      <a href="list-your-stay.html" rel="noopener">List Your Stay ↗</a>
       <a href="https://instagram.com/poonchtourism" target="_blank" rel="noopener">Collaborate ↗</a>
     </div>
     <div class="footer-col">
@@ -1547,6 +1691,7 @@ footer {
 <script>
 // ── STATE ──
 let allPlaces = [];
+let allStays = [];
 let allCats = [];
 let currentCat = 'all';
 let currentSort = 'rating';
@@ -1916,24 +2061,55 @@ function renderFeatured() {
   scroll.innerHTML = rated.map((place, idx) => buildPlaceCardHtml(place, idx, true)).join('');
 }
 
-// ── RENDER VIDEO HIGHLIGHTS ──
-function renderVideoHighlights() {
-  const section = document.getElementById('video-highlights-section');
-  const grid = document.getElementById('video-highlights-grid');
-  if (!section || !grid) return;
-  const withVideos = allPlaces.filter(p => getPlaceVideos(p).length > 0).slice(0, 6);
-  if (withVideos.length === 0) { section.classList.add('hidden'); return; }
-  section.classList.remove('hidden');
-  grid.innerHTML = withVideos.map(place => {
-    const url = getPlaceVideos(place)[0];
-    return `<div class="video-highlight-card">
-      ${videoEmbedHtml(url, place.name)}
-      <div class="video-highlight-label">
-        <a href="#" onclick="event.preventDefault();showPlace('${place.id}')" style="color:inherit;text-decoration:none">${place.name}</a>
-        <span class="cat">${place.category || ''}</span>
+// ── STAY CARD BUILDER ──
+function buildStayCardHtml(stay) {
+  const img = (stay.imageUrls || [])[0];
+  const imgHtml = img
+    ? `<img class="stay-card-img" src="${img}" alt="${stay.name}" loading="lazy" draggable="false" oncontextmenu="return false">`
+    : `<div class="stay-card-img-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--slate-lt)" stroke-width="1.2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div>`;
+  const catHtml = stay.category ? `<div class="stay-card-cat-badge">${stay.category}</div>` : '';
+  const priceHtml = stay.pricePerNight ? `<div class="stay-card-price-badge">₹${stay.pricePerNight}/night</div>` : '';
+  const amenities = (stay.amenities || []).slice(0, 3);
+  const amenitiesHtml = amenities.length
+    ? `<div class="stay-card-amenities">${amenities.map(a => `<span class="stay-tag">${a}</span>`).join('')}</div>`
+    : '';
+  const mapHref = stay.mapLink || `https://www.google.com/maps/search/${encodeURIComponent(stay.name + ' Poonch')}`;
+  const telHref = stay.contactNumber ? `tel:${stay.contactNumber.replace(/\s+/g,'')}` : null;
+  return `<div class="stay-card">
+      <div style="position:relative">
+        ${imgHtml}
+        ${catHtml}
+        ${priceHtml}
+      </div>
+      <div class="stay-card-body">
+        <div class="stay-card-name">${stay.name || 'Unnamed Stay'}</div>
+        <div class="stay-card-desc">${stay.description || 'A comfortable place to stay in Poonch district.'}</div>
+        ${amenitiesHtml}
+        <div class="stay-card-footer">
+          <a href="${mapHref}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            Directions
+          </a>
+          ${telHref ? `<a href="${telHref}" class="btn btn-primary btn-sm">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call
+          </a>` : ''}
+        </div>
       </div>
     </div>`;
-  }).join('');
+}
+
+// ── RENDER STAYS ──
+function renderStays() {
+  const section = document.getElementById('stays-section');
+  const grid = document.getElementById('stays-grid');
+  if (!section || !grid) return;
+  section.classList.remove('hidden');
+  if (allStays.length === 0) {
+    grid.innerHTML = `<div class="state-placeholder" style="grid-column:1/-1"><div class="state-icon">🏡</div><p>No stays listed yet — be the first to list yours!</p></div>`;
+    return;
+  }
+  grid.innerHTML = allStays.map(buildStayCardHtml).join('');
 }
 
 // ── LOAD DATA ──
@@ -1950,6 +2126,15 @@ async function loadData() {
     // Load places
     const placesSnap = await getDocs(query(collection(db, 'places'), orderBy('name')));
     allPlaces = placesSnap.docs.map(d => ({id: d.id, ...d.data()}));
+
+    // Load stays
+    try {
+      const staysSnap = await getDocs(query(collection(db, 'stays'), orderBy('name')));
+      allStays = staysSnap.docs.map(d => ({id: d.id, ...d.data()}));
+    } catch (staysErr) {
+      console.error('Stays load error:', staysErr);
+      allStays = [];
+    }
 
     // Update stats
     document.getElementById('stat-places').textContent = allPlaces.length;
@@ -1989,7 +2174,7 @@ async function loadData() {
     // Render new home page sections
     renderCategoryShowcase(catMap);
     renderFeatured();
-    renderVideoHighlights();
+    renderStays();
 
     // Render places
     renderPlaces();
