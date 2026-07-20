@@ -1481,7 +1481,8 @@ footer {
             Sort
           </span>
           <div class="sort-pills" id="sort-pills" role="group" aria-label="Sort places">
-            <button class="sort-pill active" data-sort="rating" onclick="setSort('rating')">Top Rated</button>
+            <button class="sort-pill active" data-sort="priority" onclick="setSort('priority')">Featured</button>
+            <button class="sort-pill" data-sort="rating" onclick="setSort('rating')">Top Rated</button>
             <button class="sort-pill" data-sort="distance" onclick="setSort('distance')">Nearest</button>
             <button class="sort-pill" data-sort="name" onclick="setSort('name')">A–Z</button>
           </div>
@@ -1694,7 +1695,7 @@ let allPlaces = [];
 let allStays = [];
 let allCats = [];
 let currentCat = 'all';
-let currentSort = 'rating';
+let currentSort = 'priority';
 let currentSearch = '';
 let currentPlace = null;
 let previousPage = 'home';
@@ -1716,6 +1717,19 @@ function iconForCategory(cat) {
   const key = (cat || '').toLowerCase();
   for (const k in CAT_ICONS) { if (key.includes(k)) return CAT_ICONS[k]; }
   return '📍';
+}
+
+// ── PRIORITY ORDERING ──
+// Items with a priority number (set from the admin panel) come first, lowest
+// number = top of the list. Items with no priority set fall back to A–Z so
+// the list order is still predictable rather than arbitrary.
+function comparePriority(a, b) {
+  const pa = a.priority, pb = b.priority;
+  const ha = pa != null && pa !== '', hb = pb != null && pb !== '';
+  if (ha && hb) return pa - pb;
+  if (ha) return -1;
+  if (hb) return 1;
+  return (a.name || '').localeCompare(b.name || '');
 }
 
 // ── NAVIGATION ──
@@ -1969,7 +1983,11 @@ function setSort(sort) {
 
 function sortPlaces(list) {
   const arr = [...list];
-  if (currentSort === 'rating') {
+  if (currentSort === 'priority') {
+    // Curated order set from the admin panel (lowest number first).
+    // Places with no priority set fall back to A–Z.
+    arr.sort(comparePriority);
+  } else if (currentSort === 'rating') {
     // Highest rating first; unrated places fall to the bottom
     arr.sort((a, b) => (Number(b.rating) || 0) - (Number(a.rating) || 0));
   } else if (currentSort === 'distance') {
@@ -2109,7 +2127,9 @@ function renderStays() {
     grid.innerHTML = `<div class="state-placeholder" style="grid-column:1/-1"><div class="state-icon">🏡</div><p>No stays listed yet — be the first to list yours!</p></div>`;
     return;
   }
-  grid.innerHTML = allStays.map(buildStayCardHtml).join('');
+  // Respect the priority order curated from the admin panel.
+  const sortedStays = [...allStays].sort(comparePriority);
+  grid.innerHTML = sortedStays.map(buildStayCardHtml).join('');
 }
 
 // ── LOAD DATA ──
@@ -2126,6 +2146,9 @@ async function loadData() {
     // Load places
     const placesSnap = await getDocs(query(collection(db, 'places'), orderBy('name')));
     allPlaces = placesSnap.docs.map(d => ({id: d.id, ...d.data()}));
+    // Establish the baseline (curated) order right away so the hero image,
+    // category showcase, and any array-order-dependent bits reflect it too.
+    allPlaces.sort(comparePriority);
 
     // Load stays
     try {
@@ -2164,7 +2187,7 @@ async function loadData() {
       strip.appendChild(btn);
     });
 
-    // Hero image from first place
+    // Hero image from first place (in curated priority order)
     const firstWithImg = allPlaces.find(p => getPlaceImages(p).length > 0);
     if (firstWithImg) {
       const wrap = document.getElementById('hero-main-img-wrap');
