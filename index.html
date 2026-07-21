@@ -1302,7 +1302,7 @@ footer {
 
 <!-- ── NAV ── -->
 <nav id="main-nav">
-  <a class="nav-logo" href="#" onclick="showPage('home')">
+  <a class="nav-logo" href="/" onclick="event.preventDefault();showPage('home')">
     <div class="nav-logo-mark">
       <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round">
         <path d="M3 17l5-8 4 5 3-4 6 7"/>
@@ -1312,7 +1312,7 @@ footer {
     <span class="nav-brand">Poonch Tourism</span>
   </a>
   <ul class="nav-links" role="list">
-    <li><a href="#" onclick="showPage('home')" class="nav-link active" data-page="home">Explore</a></li>
+    <li><a href="/" onclick="event.preventDefault();showPage('home')" class="nav-link active" data-page="home">Explore</a></li>
     <li><a href="about.html" class="nav-link">About</a></li>
     <li><a href="submit-place.html" rel="noopener" onclick="event.stopPropagation()">Add a Place</a></li>
     <li><a href="list-your-stay.html" rel="noopener" onclick="event.stopPropagation()">List Your Stay</a></li>
@@ -1332,8 +1332,8 @@ footer {
 </nav>
 
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#" onclick="showPage('home');toggleMobile();focusSearch()">Search Places</a>
-  <a href="#" onclick="showPage('home');toggleMobile()">Explore Places</a>
+  <a href="/" onclick="event.preventDefault();showPage('home');toggleMobile();focusSearch()">Search Places</a>
+  <a href="/" onclick="event.preventDefault();showPage('home');toggleMobile()">Explore Places</a>
   <a href="about.html">About</a>
   <a href="submit-place.html" rel="noopener">Add a Place ↗</a>
   <a href="list-your-stay.html" rel="noopener">List Your Stay ↗</a>
@@ -1563,7 +1563,7 @@ footer {
 <div id="page-place" class="page">
 
   <div class="place-detail-hero" id="place-hero-wrap">
-    <a href="#" class="place-detail-back" onclick="goBack()">
+    <a href="/" class="place-detail-back" onclick="event.preventDefault();goBack()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
       All Places
     </a>
@@ -1660,7 +1660,7 @@ footer {
     </div>
     <div class="footer-col">
       <h4>Explore</h4>
-      <a href="#" onclick="showPage('home')">All Places</a>
+      <a href="/" onclick="event.preventDefault();showPage('home')">All Places</a>
       <a href="about.html">About</a>
       <a href="submit-place.html" rel="noopener">Add a Place ↗</a>
       <a href="list-your-stay.html" rel="noopener">List Your Stay ↗</a>
@@ -1719,6 +1719,14 @@ function iconForCategory(cat) {
   return '📍';
 }
 
+// ── SLUG HELPER (shared by card links + place detail routing) ──
+function slugify(name) {
+  return (name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'place';
+}
+function placeUrl(place) {
+  return '/place/' + slugify(place.name) + '/' + place.id + '/';
+}
+
 // ── PRIORITY ORDERING ──
 // Items with a priority number (set from the admin panel) come first, lowest
 // number = top of the list. Items with no priority set fall back to A–Z so
@@ -1733,19 +1741,26 @@ function comparePriority(a, b) {
 }
 
 // ── NAVIGATION ──
-function showPage(name) {
+// `push` controls whether we write a new history entry. Pass false when the
+// page state is already reflected in the URL (e.g. on initial load or when
+// responding to a browser back/forward event) to avoid duplicate entries.
+function showPage(name, push = true) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   document.querySelectorAll('.nav-link').forEach(a => {
     a.classList.toggle('active', a.dataset.page === name);
   });
   window.scrollTo(0, 0);
-  // Update URL hash for SEO
-  if (name === 'home') history.pushState({page:'home'}, '', '#');
-  else history.pushState({page:name}, '', '#' + name);
+  if (push) {
+    const path = name === 'home' ? '/' : '/' + name + '/';
+    history.pushState({ page: name }, '', path);
+  }
+  if (name === 'home') {
+    document.title = 'Poonch Tourism — Discover the Hidden Gem of Jammu & Kashmir';
+  }
 }
 
-function showPlace(placeId) {
+function showPlace(placeId, push = true) {
   const place = allPlaces.find(p => p.id === placeId);
   if (!place) return;
   currentPlace = place;
@@ -1755,16 +1770,15 @@ function showPlace(placeId) {
   document.getElementById('page-place').classList.add('active');
   document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
   window.scrollTo(0, 0);
-  // SEO-friendly URL
-  const slug = place.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g,'');
-  history.pushState({page:'place', id:placeId}, place.name + ' — Poonch Tourism', '#place/' + slug + '/' + placeId);
-  // Update page title
+  // Clean, SEO-friendly URL: /place/slug/id/
+  if (push) {
+    history.pushState({ page: 'place', id: placeId }, place.name + ' — Poonch Tourism', placeUrl(place));
+  }
   document.title = place.name + ' — Poonch Tourism';
 }
 
 function goBack() {
   showPage('home');
-  document.title = 'Poonch Tourism — Discover the Hidden Gem of J&K, India';
 }
 
 function toggleMobile() {
@@ -2011,7 +2025,7 @@ function buildPlaceCardHtml(place, idx, showRank) {
   const rankHtml = (showRank && place.rating && idx < 3) ? `<div class="place-card-rank">${idx + 1}</div>` : '';
   const hasVideo = getPlaceVideos(place).length > 0;
   const videoBadgeHtml = hasVideo ? `<div class="place-card-video-badge" title="Video available"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>` : '';
-  return `<a class="place-card" href="#" onclick="event.preventDefault();showPlace('${place.id}')" title="${place.name} — Poonch Tourism">
+  return `<a class="place-card" href="${placeUrl(place)}" onclick="event.preventDefault();showPlace('${place.id}')" title="${place.name} — Poonch Tourism">
       <div style="position:relative">
         ${imgHtml}
         ${ratingHtml}
@@ -2059,7 +2073,7 @@ function renderCategoryShowcase(catMap) {
   const grid = document.getElementById('cat-cards-grid');
   if (!grid) return;
   grid.innerHTML = allCats.map(cat => `
-    <a class="cat-card" href="#" onclick="event.preventDefault();showPage('home');filterPlaces('${cat.replace(/'/g,"\\'")}');document.getElementById('explore-section').scrollIntoView({behavior:'smooth'})">
+    <a class="cat-card" href="/" onclick="event.preventDefault();showPage('home');filterPlaces('${cat.replace(/'/g,"\\'")}');document.getElementById('explore-section').scrollIntoView({behavior:'smooth'})">
       <div class="cat-card-icon">${iconForCategory(cat)}</div>
       <div class="cat-card-name">${cat}</div>
       <div class="cat-card-count">${catMap[cat]} place${catMap[cat] === 1 ? '' : 's'}</div>
@@ -2202,8 +2216,9 @@ async function loadData() {
     // Render places
     renderPlaces();
 
-    // Handle deep links
-    handleDeepLink();
+    // Route to whatever the current URL says (handles direct loads / refreshes
+    // of a clean place URL like /place/pir-ki-gali/xxxxx/)
+    routeFromLocation(false);
 
   } catch(e) {
     console.error('Load error:', e);
@@ -2211,11 +2226,31 @@ async function loadData() {
   }
 }
 
+// ── CLEAN-URL ROUTING (SEO) ──
+// Reads the current pathname (e.g. "/place/pir-ki-gali/kDDqQSeayM1Ji3hEkHE1/")
+// and shows the matching page. Used both on first load and on browser
+// back/forward navigation (popstate). `push` is passed straight through to
+// showPage/showPlace so we never double-write history entries.
+function routeFromLocation(push) {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  if (path.startsWith('/place/')) {
+    const parts = path.split('/').filter(Boolean); // ["place", "slug", "id"]
+    const placeId = parts[parts.length - 1];
+    const place = allPlaces.find(p => p.id === placeId);
+    if (place) {
+      showPlace(placeId, push);
+      return;
+    }
+    // Unknown/stale place id — fall back to home rather than a blank page
+  }
+  showPage('home', push);
+}
+
 // ── DEEP LINK HANDLING (SEO) ──
+// Kept for backward compatibility with any old shared #place/slug/id links.
 function handleDeepLink() {
   const hash = window.location.hash;
   if (hash.startsWith('#place/')) {
-    // Extract place ID from URL like #place/slug/PLACE_ID
     const parts = hash.split('/');
     const placeId = parts[parts.length - 1];
     if (placeId && allPlaces.find(p => p.id === placeId)) {
@@ -2258,10 +2293,12 @@ window.addEventListener('scroll', () => {
   document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
 });
 
-// ── BROWSER BACK ──
-window.addEventListener('popstate', e => {
-  if (e.state?.page === 'place' && e.state.id) showPlace(e.state.id);
-  else goBack();
+// ── BROWSER BACK/FORWARD ──
+window.addEventListener('popstate', () => {
+  // allPlaces may still be loading on very fast back-button presses right
+  // after initial load; routeFromLocation safely falls back to home if the
+  // place isn't found yet.
+  routeFromLocation(false);
 });
 
 // ── START ──
